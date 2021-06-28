@@ -30,6 +30,5 @@ namespace Damien
             camera2.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
             cameraMat2.mainTexture = camera2.targetTexture;
         }
-
     }
 }

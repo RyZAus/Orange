@@ -7,7 +7,6 @@ namespace Damien
 {
     public class PlayerController : MonoBehaviour
     {
-
         public CharacterController controller;
 
         public float movementSpeed = 3f;

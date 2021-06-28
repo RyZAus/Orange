@@ -6,7 +6,6 @@ namespace Damien
 {
     public class MouseLook : MonoBehaviour
     {
-
         public float mouseSensitivity = 500f;
 
         public Transform playerBody;
