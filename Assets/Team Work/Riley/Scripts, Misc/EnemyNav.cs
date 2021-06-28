@@ -9,11 +9,12 @@ namespace RileyMcGowan
     {
         //Private Vars
         public NavMeshAgent navMeshRef;
-        private bool patrolling;
+        private bool patrolling = false;
         private bool playerInVision;
         private bool forgetPlayerRunning;
         private float playerForgetDelay;
         private NavRoomManager.CurrentRoom pastRoom;
+        private bool playerBeingHunted;
         
         //Public Vars
         public float navSafeDistance;
@@ -24,6 +25,7 @@ namespace RileyMcGowan
 
         void Start()
         {
+            playerBeingHunted = false;
             patrolling = false;
             forgetPlayerRunning = false;
             if (GetComponent<NavMeshAgent>() != null)
@@ -35,6 +37,17 @@ namespace RileyMcGowan
 
         void FixedUpdate()
         {
+            //Safe distance for navigation
+            if (navMeshRef.remainingDistance < navSafeDistance && patrolling == true)
+            {
+                ResetNavPath(navPatrolPoint);
+            }
+            if (navPatrolPoint != null && playerBeingHunted != true && navMeshRef.destination != navPatrolPoint.transform.position)
+            {
+                ResetNavPath(null);
+                StartNavigation(navPatrolPoint);
+            }
+            
             if (navRoomRef != null && playerTarget == null && navPatrolPoint == null && navMeshRef.isStopped == true)
             {
                 navPatrolPoint = navRoomRef.GetNavPoint();
@@ -52,16 +65,11 @@ namespace RileyMcGowan
             {
                 ResetNavPath(navPatrolPoint);
                 StartNavigation(playerTarget);
+                playerBeingHunted = true;
             }
-
-            //Safe distance for navigation
-            if (navMeshRef.remainingDistance < navSafeDistance)
-            {
-                ResetNavPath(navPatrolPoint);
-            }
-
+            
             //Player target check for navigation stop
-            if (playerInVision != true && forgetPlayerRunning != true)
+            if (playerInVision != true && forgetPlayerRunning != true && playerTarget != null)
             {
                 StartCoroutine(ForgetPlayer());
             }
@@ -74,19 +82,18 @@ namespace RileyMcGowan
         //Start the nav path
         void StartNavigation(GameObject navLocation)
         {
-            patrolling = true;
-            navMeshRef.SetDestination(navLocation.transform.position);
             navMeshRef.isStopped = false;
-            navPatrolPoint = null;
+            navMeshRef.SetDestination(navLocation.transform.position);
+            patrolling = true;
         }
 
         //Reset the nav path
         void ResetNavPath(GameObject targetToForget)
         {
-            patrolling = true;
             navMeshRef.ResetPath();
             navMeshRef.isStopped = true;
             targetToForget = null;
+            patrolling = false;
         }
 
         //Forget the player routine
@@ -98,7 +105,7 @@ namespace RileyMcGowan
             {
                 ResetNavPath(playerTarget);
             }
-
+            playerBeingHunted = false;
             forgetPlayerRunning = false;
         }
     }
