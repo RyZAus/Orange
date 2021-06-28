@@ -8,16 +8,19 @@ namespace RileyMcGowan
     public class EnemyNav : MonoBehaviour
     {
         //Private Vars
-        private NavMeshAgent navMeshRef;
+        public NavMeshAgent navMeshRef;
         private bool patrolling;
         private bool playerInVision;
         private bool forgetPlayerRunning;
         private float playerForgetDelay;
-
+        private NavRoomManager.CurrentRoom pastRoom;
+        
         //Public Vars
         public float navSafeDistance;
         public GameObject navPatrolPoint;
         public GameObject playerTarget;
+        public NavRoomManager navRoomRef;
+        public NavRoomManager.CurrentRoom currentRoom;
 
         void Start()
         {
@@ -32,8 +35,13 @@ namespace RileyMcGowan
 
         void FixedUpdate()
         {
+            if (navRoomRef != null && playerTarget == null && navPatrolPoint == null && navMeshRef.isStopped == true)
+            {
+                navPatrolPoint = navRoomRef.GetNavPoint();
+            }
+            
             //Start patrolling if no player around
-            if (patrolling != true && playerTarget == null && navMeshRef.isStopped != false)
+            if (patrolling != true && playerTarget == null && navMeshRef.isStopped == true && navPatrolPoint != null)
             {
                 ResetNavPath(playerTarget);
                 StartNavigation(navPatrolPoint);
@@ -69,6 +77,7 @@ namespace RileyMcGowan
             patrolling = true;
             navMeshRef.SetDestination(navLocation.transform.position);
             navMeshRef.isStopped = false;
+            navPatrolPoint = null;
         }
 
         //Reset the nav path
