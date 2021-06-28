@@ -1,4 +1,4 @@
-Shader "Custom/Cutoff"
+﻿Shader "Custom/Slice"
 {
     Properties
     {
