@@ -33,6 +33,7 @@
 
             sampler2D _MainTex;
             float4 _InactiveColour;
+            
             int displayMask; // set to 1 to display texture, otherwise will draw test colour
 
 
