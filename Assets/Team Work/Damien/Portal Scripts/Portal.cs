@@ -12,12 +12,12 @@ public class Portal : MonoBehaviour
     public float nearClipLimit = 0.2f;
 
     // Private variables
-    RenderTexture viewTexture;
+    public RenderTexture viewTexture;
     public Camera portalCam;
-    Camera playerCam;
-    Material firstRecursionMat;
-    List<PortalTraveller> trackedTravellers;
-    MeshFilter screenMeshFilter;
+    public Camera playerCam;
+    public Material firstRecursionMat;
+    public List<PortalTraveller> trackedTravellers;
+    public MeshFilter screenMeshFilter;
 
     void Awake()
     {
@@ -32,6 +32,7 @@ public class Portal : MonoBehaviour
     void LateUpdate()
     {
         HandleTravellers();
+        
     }
 
     void HandleTravellers()
@@ -227,7 +228,7 @@ public class Portal : MonoBehaviour
                 viewTexture.Release();
             }
 
-            viewTexture = new RenderTexture(Screen.width, Screen.height, 0);
+            viewTexture = new RenderTexture(Screen.width, Screen.height, 24);
             // Render the view from the portal camera to the view texture
             portalCam.targetTexture = viewTexture;
             // Display the view texture on the screen of the linked portal

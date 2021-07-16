@@ -9,8 +9,9 @@ public class MainCamera : MonoBehaviour
         portals = FindObjectsOfType<Portal>();
     }
 
-    void OnPreCull()
+    void LateUpdate()
     {
+        //Debug.Log("PreCull");
         for (int i = 0; i < portals.Length; i++)
         {
             portals[i].PrePortalRender();

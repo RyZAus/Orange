@@ -45,6 +45,7 @@ namespace Damien
             {
                 playerIsOverlapping = true;
                 Debug.Log("Portal ON");
+                
             }
         }
 
@@ -56,5 +57,7 @@ namespace Damien
                 Debug.Log("Portal OFF");
             }
         }
+
+       
     }
 }
