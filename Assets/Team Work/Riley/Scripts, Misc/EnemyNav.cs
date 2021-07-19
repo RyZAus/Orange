@@ -7,14 +7,22 @@ namespace RileyMcGowan
 {
     public class EnemyNav : MonoBehaviour
     {
+        //Delegate State / Manager
+        public DelegateStateManager currentStateManager = new DelegateStateManager();
+        public DelegateState findNavPoint = new DelegateState();
+        public DelegateState navToPoint = new DelegateState();
+        public DelegateState navToPlayer = new DelegateState();
+        public DelegateState attackPlayer = new DelegateState();
+        
         //Private Vars
         public NavMeshAgent navMeshRef;
         private bool patrolling = false;
-        private bool playerInVision;
+        private bool playerInVision = false;
         private bool forgetPlayerRunning;
         private float playerForgetDelay;
         private NavRoomManager.CurrentRoom pastRoom;
         private bool playerBeingHunted;
+        private Damien.FOV thisFOV;
         
         //Public Vars
         public float navSafeDistance;
@@ -25,49 +33,97 @@ namespace RileyMcGowan
 
         void Start()
         {
+            //Set Private Funcs
             playerBeingHunted = false;
             patrolling = false;
             forgetPlayerRunning = false;
+            //Get Components
             if (GetComponent<NavMeshAgent>() != null)
             {
                 navMeshRef = GetComponent<NavMeshAgent>();
                 navMeshRef.isStopped = true;
             }
+            if (GetComponent<Damien.FOV>() != null)
+            {
+                thisFOV = GetComponent<Damien.FOV>();
+            }
+            //Delegate State / Manager
+            findNavPoint.Enter = StartNavFind;
+            findNavPoint.Update = UpdateNavFind;
+            findNavPoint.Exit = EndNavFind;
+            navToPoint.Enter = StartNavToPoint;
+            navToPoint.Update = UpdateNavToPoint;
+            navToPoint.Exit = EndNavToPoint;
+            navToPlayer.Enter = StartNavToPlayer;
+            navToPlayer.Update = UpdateNavToPlayer;
+            navToPlayer.Exit = EndNavToPlayer;
+            attackPlayer.Enter = StartAttackPlayer;
+            attackPlayer.Update = UpdateAttackPlayer;
+            attackPlayer.Exit = EndAttackPlayer;
+            currentStateManager.ChangeState(findNavPoint);
         }
 
         void FixedUpdate()
         {
-            //Safe distance for navigation
-            if (navMeshRef.remainingDistance < navSafeDistance && patrolling == true)
+            currentStateManager.UpdateState();
+            
+            if (thisFOV.listOfTargets.Count > 0 && playerTarget == null)
             {
-                ResetNavPath(navPatrolPoint);
+                playerInVision = true;
+                playerTarget = thisFOV.listOfTargets[0];
+            }
+            else if (playerInVision != false)
+            {
+                playerInVision = false;
+            }
+        }
+        
+        private void StartNavFind(){}
+
+        private void UpdateNavFind()
+        {
+            if (navRoomRef != null && playerTarget == null && navPatrolPoint == null && navMeshRef.isStopped == true)
+            {
+                navPatrolPoint = navRoomRef.GetNavPoint();
+                if (playerInVision == false)
+                {
+                    currentStateManager.ChangeState(navToPoint);
+                }
+            }
+        }
+        private void EndNavFind(){}
+
+        private void StartNavToPoint()
+        {
+            //Start patrolling if no player around
+            if (navPatrolPoint != null && patrolling != true && playerTarget == null && navMeshRef.isStopped == true)
+            {
+                ResetNavPath(playerTarget);
+                StartNavigation(navPatrolPoint);
+            }
+        }
+
+        private void UpdateNavToPoint()
+        {
+            if (playerInVision == true)
+            {
+                currentStateManager.ChangeState(navToPlayer);
             }
             if (navPatrolPoint != null && playerBeingHunted != true && navMeshRef.destination != navPatrolPoint.transform.position)
             {
                 ResetNavPath(null);
                 StartNavigation(navPatrolPoint);
             }
-            
-            if (navRoomRef != null && playerTarget == null && navPatrolPoint == null && navMeshRef.isStopped == true)
-            {
-                navPatrolPoint = navRoomRef.GetNavPoint();
-            }
-            
-            //Start patrolling if no player around
-            if (patrolling != true && playerTarget == null && navMeshRef.isStopped == true && navPatrolPoint != null)
-            {
-                ResetNavPath(playerTarget);
-                StartNavigation(navPatrolPoint);
-            }
+        }
+        private void EndNavToPoint(){}
+        private void StartNavToPlayer(){}
 
-            //If player is in sight start navigation
-            if (playerTarget != null && navMeshRef.destination != playerTarget.transform.position)
+        private void UpdateNavToPlayer()
+        {
+            if (playerBeingHunted == false && playerTarget == null && playerInVision == false)
             {
-                ResetNavPath(navPatrolPoint);
-                StartNavigation(playerTarget);
-                playerBeingHunted = true;
+                currentStateManager.ChangeState(findNavPoint);
             }
-            
             //Player target check for navigation stop
             if (playerInVision != true && forgetPlayerRunning != true && playerTarget != null)
             {
@@ -77,7 +133,20 @@ namespace RileyMcGowan
             {
                 StopCoroutine(ForgetPlayer());
             }
+            //If player is in sight start navigation
+            if (playerTarget != null && navMeshRef.destination != playerTarget.transform.position)
+            {
+                ResetNavPath(navPatrolPoint);
+                StartNavigation(playerTarget);
+                playerBeingHunted = true;
+            }
         }
+        private void EndNavToPlayer(){}
+        private void StartAttackPlayer(){}
+        private void UpdateAttackPlayer(){}
+        private void EndAttackPlayer(){}
+        
+        
 
         //Start the nav path
         void StartNavigation(GameObject navLocation)
@@ -104,6 +173,7 @@ namespace RileyMcGowan
             if (playerInVision != true)
             {
                 ResetNavPath(playerTarget);
+                playerTarget = null;
             }
             playerBeingHunted = false;
             forgetPlayerRunning = false;
