@@ -14,22 +14,46 @@ namespace RileyMcGowan
         public DelegateState navToPoint = new DelegateState();
         public DelegateState navToPlayer = new DelegateState();
         public DelegateState attackPlayer = new DelegateState();
-        
+        public float safeDistance = 5;
+
         //Private Vars
         private NavMeshAgent navMeshRef;
         private GameObject patrolTarget;
         private GameObject playerTarget;
         private Damien.FOV enemyFOV;
+        private NavRoomManager navRoomRef;
         
         //Public Vars
         public List<GameObject> possibleNavPoints;
-
+        
         private void Start()
         {
             if (GetComponent<Damien.FOV>() != null)
             {
                 enemyFOV = GetComponent<Damien.FOV>();
             }
+
+            if (FindObjectOfType<NavRoomManager>() != null)
+            {
+                navRoomRef = FindObjectOfType<NavRoomManager>();
+            }
+            else
+            {
+                Debug.Log("Enemy cannot nav, needs NavRoomManager.");
+                return;
+            }
+            findNavPoint.Enter = StartFindNavPoint;
+            findNavPoint.Update = UpdateFindNavPoint;
+            findNavPoint.Exit = EndFindNavPoint;
+            navToPoint.Enter = StartNavToPoint;
+            navToPoint.Update = UpdateNavToPoint;
+            navToPoint.Exit = EndNavToPoint;
+            navToPlayer.Enter = StartNavToPlayer;
+            navToPlayer.Update = UpdateNavToPlayer;
+            navToPlayer.Exit = EndNavToPlayer;
+            attackPlayer.Enter = StartAttackPlayer;
+            attackPlayer.Update = UpdateAttackPlayer;
+            attackPlayer.Exit = EndAttackPlayer;
             currentStateManager.ChangeState(findNavPoint);
         }
 
@@ -39,23 +63,31 @@ namespace RileyMcGowan
             if (enemyFOV.listOfTargets.Count > 0)
             {
                 playerTarget = enemyFOV.listOfTargets[0]; //HACK FOR 1 PLAYER
+                currentStateManager.ChangeState(navToPlayer);
+            }
+            else
+            {
+                playerTarget = null;
             }
         }
 
         /// <summary>
         /// Find a nav location
         /// </summary>
-        private void StartNavFind()
+        private void StartFindNavPoint()
         {
-            
+            patrolTarget = navRoomRef.GetNavPoint();
         }
 
-        private void UpdateNavFind()
+        private void UpdateFindNavPoint()
         {
-            
+            if (patrolTarget != null && playerTarget == null)
+            {
+                currentStateManager.ChangeState(navToPoint);
+            }
         }
 
-        private void EndNavFind()
+        private void EndFindNavPoint()
         {
             
         }
@@ -65,12 +97,16 @@ namespace RileyMcGowan
         /// </summary>
         private void StartNavToPoint()
         {
-            
+            StartNavigation(patrolTarget);
         }
 
         private void UpdateNavToPoint()
         {
-            
+            if (playerTarget == null && patrolTarget == null)
+            {
+                currentStateManager.ChangeState(findNavPoint);
+            }
+            CheckNavigation(patrolTarget);
         }
 
         private void EndNavToPoint()
@@ -83,12 +119,16 @@ namespace RileyMcGowan
         /// </summary>
         private void StartNavToPlayer()
         {
-            
+            StartNavigation(playerTarget);
         }
 
         private void UpdateNavToPlayer()
         {
-            
+            if (navMeshRef.isStopped == true)
+            {
+                currentStateManager.ChangeState(attackPlayer);
+            }
+            CheckNavigation(playerTarget);
         }
 
         private void EndNavToPlayer()
@@ -101,12 +141,12 @@ namespace RileyMcGowan
         /// </summary>
         private void StartAttackPlayer()
         {
-            
+            //DEAL DAMAGE
         }
 
         private void UpdateAttackPlayer()
         {
-            
+            currentStateManager.ChangeState(findNavPoint);
         }
 
         private void EndAttackPlayer()
@@ -127,6 +167,30 @@ namespace RileyMcGowan
             navMeshRef.ResetPath();
             navMeshRef.isStopped = true;
             targetToForget = null;
+        }
+        
+        //Check nav location
+        void CheckNavigation(GameObject navLocation)
+        {
+            if (navMeshRef.remainingDistance < safeDistance || playerTarget != null && patrolTarget != null)
+            {
+                if (playerTarget == null)
+                {
+                    ResetNavPath(navLocation);
+                }
+                else
+                {
+                    ResetNavPath();
+                }
+            }
+            else
+            {
+                if (navLocation.transform.position != navMeshRef.destination)
+                {
+                    ResetNavPath();
+                    StartNavigation(navLocation);
+                }
+            }
         }
     }
 }

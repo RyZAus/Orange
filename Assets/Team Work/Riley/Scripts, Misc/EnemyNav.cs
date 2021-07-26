@@ -20,7 +20,7 @@ namespace RileyMcGowan
         private bool playerInVision = false;
         private bool forgetPlayerRunning;
         private float playerForgetDelay;
-        private NavRoomManager.CurrentRoom pastRoom;
+        //private NavRoomManager.CurrentRoom pastRoom;
         private bool playerBeingHunted;
         private Damien.FOV thisFOV;
         
@@ -29,7 +29,7 @@ namespace RileyMcGowan
         public GameObject navPatrolPoint;
         public GameObject playerTarget;
         public NavRoomManager navRoomRef;
-        public NavRoomManager.CurrentRoom currentRoom;
+        //public NavRoomManager.CurrentRoom currentRoom;
 
         void Start()
         {

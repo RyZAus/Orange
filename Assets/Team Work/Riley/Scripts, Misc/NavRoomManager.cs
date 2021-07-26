@@ -12,25 +12,25 @@ public class NavRoomManager : MonoBehaviour
     
     //Public Vars
     public GameObject[] roomNavPoints;
-    public CurrentRoom managersRoom;
+    //public CurrentRoom managersRoom;
     
-    public enum CurrentRoom
-    {
-        None,
-        MainRoom,
-        F1R1, //Floor 1, Room 1
-        F2R1
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            enemyNav = other.gameObject.GetComponent<EnemyNav>();
-            enemyNav.currentRoom = managersRoom;
-            enemyNav.navRoomRef = this.gameObject.GetComponent<NavRoomManager>();
-        }
-    }
+    // public enum CurrentRoom
+    // {
+    //     None,
+    //     MainRoom,
+    //     F1R1, //Floor 1, Room 1
+    //     F2R1
+    // }
+    //
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+    //     {
+    //         enemyNav = other.gameObject.GetComponent<EnemyNav>();
+    //         enemyNav.currentRoom = managersRoom;
+    //         enemyNav.navRoomRef = this.gameObject.GetComponent<NavRoomManager>();
+    //     }
+    // }
 
     public GameObject GetNavPoint()
     {
