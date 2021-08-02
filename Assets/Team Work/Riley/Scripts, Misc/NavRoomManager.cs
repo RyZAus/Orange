@@ -37,5 +37,4 @@ public class NavRoomManager : MonoBehaviour
         GameObject chosenNavPoint = roomNavPoints[Random.Range(0, roomNavPoints.Length)];
         return chosenNavPoint;
     }
-    
 }

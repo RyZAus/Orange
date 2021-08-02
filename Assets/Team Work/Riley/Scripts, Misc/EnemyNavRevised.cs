@@ -22,6 +22,8 @@ namespace RileyMcGowan
         private GameObject playerTarget;
         private Damien.FOV enemyFOV;
         private NavRoomManager navRoomRef;
+        private Vector3 locationCheck;
+        private Vector3 playerPreviousLocation;
         
         //Public Vars
         public List<GameObject> possibleNavPoints;
@@ -70,6 +72,10 @@ namespace RileyMcGowan
             }
             else
             {
+                if (playerTarget != null)
+                {
+                    playerPreviousLocation = playerTarget.transform.position;
+                }
                 playerTarget = null;
             }
         }
@@ -79,7 +85,9 @@ namespace RileyMcGowan
         /// </summary>
         private void StartFindNavPoint()
         {
+            ResetNavPath(patrolTarget);
             patrolTarget = navRoomRef.GetNavPoint();
+            playerPreviousLocation = Vector3.zero;
         }
 
         private void UpdateFindNavPoint()
@@ -100,7 +108,7 @@ namespace RileyMcGowan
         /// </summary>
         private void StartNavToPoint()
         {
-            StartNavigation(patrolTarget);
+            StartNavigation(patrolTarget.transform.position);
         }
 
         private void UpdateNavToPoint()
@@ -122,21 +130,30 @@ namespace RileyMcGowan
         /// </summary>
         private void StartNavToPlayer()
         {
-            StartNavigation(playerTarget);
+            StartNavigation(playerTarget.transform.position);
         }
 
         private void UpdateNavToPlayer()
         {
-            if (navMeshRef.isStopped == true)
+            if (playerTarget == null)
+            {
+                ResetNavPath();
+                StartNavigation(playerPreviousLocation);
+                currentStateManager.ChangeState(findNavPoint);
+            }
+            else
+            {
+                CheckNavigation(playerTarget);
+            }
+            if (navMeshRef.isStopped == true && playerPreviousLocation == Vector3.zero)
             {
                 currentStateManager.ChangeState(attackPlayer);
             }
-            CheckNavigation(playerTarget);
         }
 
         private void EndNavToPlayer()
         {
-            
+            ResetNavPath();
         }
 
         /// <summary>
@@ -158,10 +175,10 @@ namespace RileyMcGowan
         }
         
         //Start the nav path
-        void StartNavigation(GameObject navLocation)
+        void StartNavigation(Vector3 navLocation)
         {
             navMeshRef.isStopped = false;
-            navMeshRef.SetDestination(navLocation.transform.position);
+            navMeshRef.SetDestination(navLocation);
         }
 
         //Reset the nav path
@@ -188,10 +205,11 @@ namespace RileyMcGowan
             }
             else
             {
-                if (navLocation.transform.position != navMeshRef.destination)
+                locationCheck = new Vector3(navLocation.transform.position.x, navMeshRef.destination.y, navLocation.transform.position.z);
+                if (locationCheck != navMeshRef.destination)
                 {
                     ResetNavPath();
-                    StartNavigation(navLocation);
+                    StartNavigation(navLocation.transform.position);
                 }
             }
         }
