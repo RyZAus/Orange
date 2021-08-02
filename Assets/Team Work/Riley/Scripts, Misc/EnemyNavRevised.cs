@@ -32,7 +32,10 @@ namespace RileyMcGowan
             {
                 enemyFOV = GetComponent<Damien.FOV>();
             }
-
+            if (GetComponent<NavMeshAgent>() != null)
+            {
+                navMeshRef = GetComponent<NavMeshAgent>();
+            }
             if (FindObjectOfType<NavRoomManager>() != null)
             {
                 navRoomRef = FindObjectOfType<NavRoomManager>();
@@ -102,7 +105,7 @@ namespace RileyMcGowan
 
         private void UpdateNavToPoint()
         {
-            if (playerTarget == null && patrolTarget == null)
+            if (playerTarget == null && patrolTarget == null && navMeshRef.isStopped == true)
             {
                 currentStateManager.ChangeState(findNavPoint);
             }
