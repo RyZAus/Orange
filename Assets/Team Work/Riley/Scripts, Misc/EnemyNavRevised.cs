@@ -181,16 +181,16 @@ namespace RileyMcGowan
         //Start the nav path
         void StartNavigation(Vector3 navLocation)
         {
-            navMeshRef.isStopped = false;
             navMeshRef.SetDestination(navLocation);
+            navMeshRef.isStopped = false;
         }
 
         //Reset the nav path
         void ResetNavPath(GameObject targetToForget = default(GameObject))
         {
             navMeshRef.ResetPath();
-            navMeshRef.isStopped = true;
             targetToForget = null;
+            navMeshRef.isStopped = true;
         }
         
         //Check nav location
