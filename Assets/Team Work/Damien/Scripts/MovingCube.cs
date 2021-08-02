@@ -45,7 +45,7 @@ namespace Damien
 
         IEnumerator MoveRandomly()
         {
-            
+            yield return null;
         }
 
         IEnumerator MoveBackAndForth()
