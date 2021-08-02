@@ -96,6 +96,10 @@ namespace RileyMcGowan
             {
                 currentStateManager.ChangeState(navToPoint);
             }
+            else if (patrolTarget == null && playerTarget == null)
+            {
+                patrolTarget = navRoomRef.GetNavPoint();
+            }
         }
 
         private void EndFindNavPoint()
@@ -194,6 +198,10 @@ namespace RileyMcGowan
         {
             if (navMeshRef.remainingDistance < safeDistance || playerTarget != null && patrolTarget != null)
             {
+                if (navMeshRef.remainingDistance < safeDistance)
+                {
+                    patrolTarget = null;
+                }
                 if (playerTarget == null)
                 {
                     ResetNavPath(navLocation);
