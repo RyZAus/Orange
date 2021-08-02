@@ -12,7 +12,7 @@ public class MainCamera : MonoBehaviour
         portalLength = portals.Length;
     }
 
-    void LateUpdate()
+    void LateUpdate ()
     {
         //Debug.Log("PreCull");
         for (int i = 0; i < portalLength; i++)
