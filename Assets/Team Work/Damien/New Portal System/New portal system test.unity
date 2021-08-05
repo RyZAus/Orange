@@ -549,12 +549,12 @@ PrefabInstance:
     - target: {fileID: 3743597651704331078, guid: 223ad0c1f666cd748ae6cf468b1921db,
         type: 3}
       propertyPath: recursionLimit
-      value: 8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4191763916777173820, guid: 223ad0c1f666cd748ae6cf468b1921db,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4287738574754002744, guid: 223ad0c1f666cd748ae6cf468b1921db,
         type: 3}
@@ -725,7 +725,7 @@ PrefabInstance:
     - target: {fileID: 4191763916777173820, guid: 223ad0c1f666cd748ae6cf468b1921db,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4287738574754002744, guid: 223ad0c1f666cd748ae6cf468b1921db,
         type: 3}

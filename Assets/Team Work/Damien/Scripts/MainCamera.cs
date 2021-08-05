@@ -1,18 +1,19 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MainCamera : MonoBehaviour
 {
     public Portal[] portals;
     private Portal currentPortal;
     private int portalLength;
-    
+
     void Awake()
     {
         portals = FindObjectsOfType<Portal>();
         portalLength = portals.Length;
     }
 
-    void LateUpdate ()
+    void LateUpdate()
     {
         //Debug.Log("PreCull");
         for (int i = 0; i < portalLength; i++)
@@ -28,10 +29,12 @@ public class MainCamera : MonoBehaviour
     {
         portal.PrePortalRender();
     }
+
     void PortalRenderFunc(Portal portal)
     {
         portal.Render();
     }
+
     void PostPortalRenderFunc(Portal portal)
     {
         portal.PostPortalRender();
