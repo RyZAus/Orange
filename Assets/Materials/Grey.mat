@@ -280,6 +280,6 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - sliceCentre: {r: 47.93, g: 0.5, b: 2, a: 0}
-    - sliceNormal: {r: 0, g: 0, b: 0, a: 0}
+    - sliceCentre: {r: 50, g: 0.5, b: 0, a: 0}
+    - sliceNormal: {r: -0, g: -0, b: 1, a: 0}
   m_BuildTextureStacks: []

@@ -7,7 +7,7 @@ public class Portal : MonoBehaviour
     public MeshRenderer screen;
     public int recursionLimit = 0;
 
-    [Header("Advanced Settings")] public float nearClipOffset = 0.05f;
+    [Header("Advanced Settings")] public float nearClipOffset = 0.2f;
     public float nearClipLimit = 0.2f;
 
     // Private variables
