@@ -21,6 +21,7 @@ public class FPSController : PortalTraveller
     public float pitch;
     float smoothYaw;
     float smoothPitch;
+    private GameManager _gameManager;
 
     float yawSmoothV;
     float pitchSmoothV;
@@ -36,6 +37,7 @@ public class FPSController : PortalTraveller
 
     void Start()
     {
+        _gameManager = FindObjectOfType<GameManager>();
         cam = Camera.main;
         if (lockCursor)
         {
@@ -65,6 +67,16 @@ public class FPSController : PortalTraveller
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             disabled = !disabled;
+        }
+
+        if (GameManager.paused)
+        {
+            disabled = true;
+        }
+
+        if (!GameManager.paused)
+        {
+            disabled = false;
         }
 
         if (disabled)
