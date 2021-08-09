@@ -19,8 +19,8 @@ namespace Damien
 
         public void QuitGame()
         {
-            // Doesn't work in editor, only works in the build
-            Debug.Log("Game Has Quit");
+            // Doesn't work in editor, only works in the build, so debug message will suffice in the editor
+            Debug.Log("Game Has Quit (Will work once game is built)");
             Application.Quit();
         }
     }
