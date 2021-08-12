@@ -134,7 +134,8 @@ public class Portal : MonoBehaviour
         }
 
         // Unhide objects hidden at start of render
-        screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+        screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        
     }
 
     void HandleClipping()

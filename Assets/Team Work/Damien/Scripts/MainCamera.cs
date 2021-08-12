@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 public class MainCamera : MonoBehaviour
@@ -15,7 +16,22 @@ public class MainCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        //Debug.Log("PreCull");
+        //Need tp find something that calls the same time as OnPreCull does in the standard pipeline
+        for (int i = 0; i < portalLength; i++)
+        {
+            currentPortal = portals[i];
+            PrePortalRenderFunc(currentPortal);
+            PortalRenderFunc(currentPortal);
+            PostPortalRenderFunc(currentPortal);
+        }
+        
+        // StartCoroutine(RenderPortal());
+    }
+
+
+    IEnumerator RenderPortal() //maybe a coroutine that waits until the end of frame?
+    {
+        yield return new WaitForEndOfFrame();
         for (int i = 0; i < portalLength; i++)
         {
             currentPortal = portals[i];
