@@ -15,10 +15,15 @@ public class Portal : MonoBehaviour
     Camera portalCam;
     Camera playerCam;
     Material firstRecursionMat;
-    List<PortalTraveller> trackedTravellers;
+    public List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
 
     void Awake()
+    {
+        ResetPortal();
+    }
+
+    void ResetPortal()
     {
         playerCam = Camera.main;
         portalCam = GetComponentInChildren<Camera>();

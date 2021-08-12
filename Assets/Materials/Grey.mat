@@ -262,7 +262,7 @@ Material:
     - _ZTestModeDistortion: 4
     - _ZTestTransparent: 4
     - _ZWrite: 1
-    - sliceOffsetDst: -0.046348117
+    - sliceOffsetDst: 0
     m_Colors:
     - _BaseColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
@@ -280,6 +280,6 @@ Material:
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
-    - sliceCentre: {r: 50, g: 0.5, b: 0, a: 0}
+    - sliceCentre: {r: 45.68, g: 50.5, b: 53.66, a: 0}
     - sliceNormal: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
