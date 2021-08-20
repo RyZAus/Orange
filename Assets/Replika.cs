@@ -9,19 +9,48 @@ public class Replika : MonoBehaviour
     public Transform replika;
 
     private Vector3 lurchRange;
+    private GameManager _gameManager;
+    private Vector3 startPos;
+    public float lurchAmount;
+    bool disabled;
+    
     // Start is called before the first frame update
     void Start()
     {
-        lurchRange = new Vector3(Random.Range(-3, 4), 0, Random.Range(-3, 4));
+        _gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        int randomNumber = Random.Range(0, 61);
-        if (randomNumber == 1)
+        if (GameManager.paused)
         {
-            replika.position = Vector3.Lerp(replika.position, replika.position + lurchRange, 1f);
+            disabled = true;
         }
+
+        if (!GameManager.paused)
+        {
+            disabled = false;
+        }
+
+        if (disabled)
+        {
+            return;
+        }
+        int randomNumber = Random.Range(0, 11);
+        if (randomNumber == 0)
+        {
+            StartCoroutine(ReplikaLerch());
+        }
+    }
+
+    IEnumerator ReplikaLerch()
+    {
+        lurchRange = new Vector3(Random.Range(-lurchAmount, lurchAmount), 0, Random.Range(-lurchAmount, lurchAmount));
+        startPos = replika.position;
+        replika.position = Vector3.Lerp(replika.position, replika.position + lurchRange, 1f);
+        yield return new WaitForEndOfFrame();
+        replika.position = startPos;
+        Debug.Log("replika moved");
     }
 }

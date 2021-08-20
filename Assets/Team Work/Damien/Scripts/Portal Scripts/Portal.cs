@@ -85,10 +85,15 @@ public class Portal : MonoBehaviour
     public void Render()
     {
         // Skip rendering the view from this portal if player is not looking at the linked portal
-        if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
-        {
-            return;
-        }
+        //if (Physics.Raycast(playerCam.transform.position, linkedPortal.screen.transform.position, linkedPortal.transform.position.magnitude, 6, QueryTriggerInteraction.Ignore))
+        
+            if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
+            {
+                //put this in a raycast check to see if the player can actually see the portal or if it is blocked,
+                //this should prevent the framerate drops when a portal is technically in the screen, but is actually blocked by an abject
+                return;
+            }
+        
 
         CreateViewTexture();
 
