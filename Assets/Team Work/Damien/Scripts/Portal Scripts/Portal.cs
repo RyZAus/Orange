@@ -84,15 +84,20 @@ public class Portal : MonoBehaviour
     // Called after PrePortalRender, and before PostPortalRender
     public void Render()
     {
+        //RaycastHit hitInfo;
         // Skip rendering the view from this portal if player is not looking at the linked portal
-        //if (Physics.Raycast(playerCam.transform.position, linkedPortal.screen.transform.position, linkedPortal.transform.position.magnitude, 6, QueryTriggerInteraction.Ignore))
-        
+        //Physics.Raycast(playerCam.transform.position, linkedPortal.screen.transform.position, out hitInfo,
+            //linkedPortal.transform.position.magnitude, 6);
+
+        //if (!hitInfo.collider.gameObject.GetComponent<Portal>())
+       
             if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
-            {
+            {//TODO: Implement FOV script to detect objects blocking portals
                 //put this in a raycast check to see if the player can actually see the portal or if it is blocked,
                 //this should prevent the framerate drops when a portal is technically in the screen, but is actually blocked by an abject
                 return;
             }
+        
         
 
         CreateViewTexture();
