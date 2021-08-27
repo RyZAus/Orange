@@ -44,7 +44,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7082590955929350753}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
   m_Name: 
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Version: 2
   parameters:
     albedo: {r: 0.254717, g: 0.254717, b: 0.254717, a: 1}
-    meanFreePath: 2
+    meanFreePath: 20
     anisotropy: 0
     volumeMask: {fileID: 0}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}
@@ -370,6 +370,8 @@ GameObject:
   - component: {fileID: 7082590956615444440}
   - component: {fileID: 1427425973}
   - component: {fileID: 1427425974}
+  - component: {fileID: 8475156962213228012}
+  - component: {fileID: 767536712400325215}
   - component: {fileID: 1427425976}
   m_Layer: 0
   m_Name: Replika
@@ -442,6 +444,46 @@ MonoBehaviour:
   viewAngle: 90
   listOfTargets: []
 --- !u!114 &1427425974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7082590956615444389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc66b8643a71ab4492b0f17a43fc686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  findNavPoint:
+    isRunning: 0
+  navToPoint:
+    isRunning: 0
+  navToPlayer:
+    isRunning: 0
+  attackPlayer:
+    isRunning: 0
+  safeDistance: 5
+  possibleNavPoints: []
+--- !u!114 &8475156962213228012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7082590956615444389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9179d9dfc31e1d4ea49f8ed8d1649b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targets:
+    serializedVersion: 2
+    m_Bits: 0
+  viewRadius: 30
+  viewAngle: 90
+  listOfTargets: []
+--- !u!114 &767536712400325215
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
