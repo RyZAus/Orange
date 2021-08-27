@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Damien;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -9,9 +10,11 @@ public class MainCamera : MonoBehaviour
     private Portal currentPortal;
     private int portalLength;
     public static RenderPipeline currentPipeline;
+    private PlayerFOV fov;
 
     void Start()
     {
+        fov = GetComponentInParent<PlayerFOV>();
         portals = FindObjectsOfType<Portal>();
         portalLength = portals.Length;
         //RenderPipelineManager.endFrameRendering += RenderPortal;
@@ -37,18 +40,18 @@ public class MainCamera : MonoBehaviour
             portals[i].PostPortalRender();
         }
 
-
+/*
         void RenderPortal(ScriptableRenderContext context,
             Camera[] camera) //maybe a coroutine that waits until the end of frame?
         {
-            /**yield return new WaitForEndOfFrame(); //was a coroutine, now isn't
+            yield return new WaitForEndOfFrame(); //was a coroutine, now isn't
             for (int i = 0; i < portalLength; i++)
             {
                 currentPortal = portals[i];
                 PrePortalRenderFunc(currentPortal);
                 PortalRenderFunc(currentPortal);
                 PostPortalRenderFunc(currentPortal);
-            }**/
+            }
 
             for (int i = 0; i < portals.Length; i++)
             {
@@ -65,7 +68,8 @@ public class MainCamera : MonoBehaviour
                 portals[i].PostPortalRender();
             }
         }
-
+*/
+/*
         void PrePortalRenderFunc(Portal portal)
         {
             portal.PrePortalRender();
@@ -80,7 +84,7 @@ public class MainCamera : MonoBehaviour
         {
             portal.PostPortalRender();
         }
-
+*/
 
     }
 }

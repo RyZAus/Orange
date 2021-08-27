@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Damien;
 using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
     [Header("Main Settings")] public Portal linkedPortal;
     public MeshRenderer screen;
-    public int recursionLimit = 0;
+    public int recursionLimit;
 
     [Header("Advanced Settings")] public float nearClipOffset = 0.2f;
     public float nearClipLimit = 0.2f;
@@ -14,13 +15,18 @@ public class Portal : MonoBehaviour
     RenderTexture viewTexture;
     Camera portalCam;
     Camera playerCam;
+    private PlayerFOV _playerFOV;
     Material firstRecursionMat;
     public List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
+    private Renderer pRenderer;
+    private bool forceRenderPortal;
 
     void Awake()
     {
+        _playerFOV = FindObjectOfType<PlayerFOV>();
         ResetPortal();
+        pRenderer = gameObject.GetComponentInChildren<Renderer>();
     }
 
     void ResetPortal()
@@ -84,21 +90,17 @@ public class Portal : MonoBehaviour
     // Called after PrePortalRender, and before PostPortalRender
     public void Render()
     {
-        //RaycastHit hitInfo;
         // Skip rendering the view from this portal if player is not looking at the linked portal
-        //Physics.Raycast(playerCam.transform.position, linkedPortal.screen.transform.position, out hitInfo,
-            //linkedPortal.transform.position.magnitude, 6);
+        if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
+        {
+            return;
+        }
 
-        //if (!hitInfo.collider.gameObject.GetComponent<Portal>())
-       
-            if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
-            {//TODO: Implement FOV script to detect objects blocking portals
-                //put this in a raycast check to see if the player can actually see the portal or if it is blocked,
-                //this should prevent the framerate drops when a portal is technically in the screen, but is actually blocked by an abject
-                return;
-            }
-        
-        
+        if (!_playerFOV.listOfTargets.Contains(linkedPortal.gameObject) && !forceRenderPortal)
+        {
+            return;
+        }
+
 
         CreateViewTexture();
 
@@ -134,7 +136,7 @@ public class Portal : MonoBehaviour
         screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
         linkedPortal.screen.material.SetInt("displayMask", 0);
 
-        
+
         for (int i = startIndex; i < recursionLimit; i++)
         {
             portalCam.transform.SetPositionAndRotation(renderPositions[i], renderRotations[i]);
@@ -150,7 +152,6 @@ public class Portal : MonoBehaviour
 
         // Unhide objects hidden at start of render
         screen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-        
     }
 
     void HandleClipping()
@@ -351,6 +352,7 @@ public class Portal : MonoBehaviour
         var traveller = other.GetComponent<PortalTraveller>();
         if (traveller)
         {
+            forceRenderPortal = true;
             OnTravellerEnterPortal(traveller);
         }
     }
@@ -360,6 +362,7 @@ public class Portal : MonoBehaviour
         var traveller = other.GetComponent<PortalTraveller>();
         if (traveller && trackedTravellers.Contains(traveller))
         {
+            forceRenderPortal = false;
             traveller.ExitPortalThreshold();
             trackedTravellers.Remove(traveller);
         }

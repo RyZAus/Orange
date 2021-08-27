@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3743597651360454369}
   - component: {fileID: 3743597651360454368}
   - component: {fileID: 2240112526103255632}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Portal Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 2889781342255249479}
   - component: {fileID: 7762096424381389227}
   - component: {fileID: 7779281783800147049}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Area Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -553,7 +553,7 @@ PrefabInstance:
     - target: {fileID: -8256134651489076907, guid: 2dc86ca70c76d784a89816400d6303fc,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8256134651489076907, guid: 2dc86ca70c76d784a89816400d6303fc,
         type: 3}
@@ -598,7 +598,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2dc86ca70c76d784a89816400d6303fc,
         type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6609493762104327279, guid: 2dc86ca70c76d784a89816400d6303fc,
         type: 3}
@@ -617,6 +617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5754084199372789682, guid: 2dc86ca70c76d784a89816400d6303fc, type: 3}
+    - {fileID: -7511558181221131132, guid: 2dc86ca70c76d784a89816400d6303fc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2dc86ca70c76d784a89816400d6303fc, type: 3}
 --- !u!4 &3515845834849906050 stripped
 Transform:

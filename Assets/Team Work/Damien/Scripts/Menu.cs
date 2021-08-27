@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,13 @@ namespace Damien
 {
     public class Menu : MonoBehaviour
     {
+        public GameManager _gameManager;
+
+        private void Awake()
+        {
+            _gameManager = FindObjectOfType<GameManager>();
+        }
+
         public void PlayGame()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -22,6 +30,16 @@ namespace Damien
             // Doesn't work in editor, only works in the build, so debug message will suffice in the editor
             Debug.Log("Game Has Quit (Will work once game is built)");
             Application.Quit();
+        }
+
+        public void PortalDemo()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
+
+        public void Resume()
+        {
+            _gameManager.ResumeGame();
         }
     }
 }

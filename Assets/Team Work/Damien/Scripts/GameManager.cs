@@ -18,13 +18,14 @@ public class GameManager : MonoBehaviour
     {
         bool paused = false;
         pauseMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+        //optionsMenu.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel"))
+        //if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Submit"))
         {
             if (!paused)
             {
@@ -42,14 +43,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         paused = true;
         pauseMenu.SetActive(true);
-        optionsMenu.SetActive(false);
+        //optionsMenu.SetActive(false);
     }
 
-    void ResumeGame()
+    public void ResumeGame()
     {
         Time.timeScale = 1;
         paused = false;
         pauseMenu.SetActive(false);
-        optionsMenu.SetActive(false);
+       // optionsMenu.SetActive(false);
     }
 }

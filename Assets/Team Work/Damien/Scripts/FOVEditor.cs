@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(FOV))]
+
 public class FOVEditor : Editor
 {
     void OnSceneGUI()

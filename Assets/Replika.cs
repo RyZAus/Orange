@@ -51,6 +51,6 @@ public class Replika : MonoBehaviour
         replika.position = Vector3.Lerp(replika.position, replika.position + lurchRange, 1f);
         yield return new WaitForEndOfFrame();
         replika.position = startPos;
-        Debug.Log("replika moved");
+        //Debug.Log("replika moved");
     }
 }
