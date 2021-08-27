@@ -53,8 +53,8 @@ namespace Damien
                     //checks if the target that is inside the view range is also within the view cone
                     Vector3 dirToTarget = (targetPos - transform.position).normalized; 
                     Vector3 topHit = new Vector3(targetPos.x, targetPos.y + 1f, targetPos.z);
-                    Vector3 leftHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z - .75f);
-                    Vector3 rightHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z + .75f);
+                    Vector3 leftHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z - 1f);
+                    Vector3 rightHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z + 1f);
                    
                     if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2) 
                     {

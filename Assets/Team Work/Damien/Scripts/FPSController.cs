@@ -108,7 +108,7 @@ public class FPSController : PortalTraveller
             verticalVelocity = 0;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             float timeSinceLastTouchedGround = Time.time - lastGroundedTime;
             if (controller.isGrounded || (!jumping && timeSinceLastTouchedGround < 0.15f))
@@ -116,7 +116,7 @@ public class FPSController : PortalTraveller
                 jumping = true;
                 verticalVelocity = jumpForce;
             }
-        }
+        }*/
 
         float mX = Input.GetAxisRaw("Mouse X");
         float mY = Input.GetAxisRaw("Mouse Y");

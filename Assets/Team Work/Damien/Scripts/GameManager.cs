@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //if (Input.GetButtonDown("Cancel"))
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonDown("Cancel"))
         {
             if (!paused)
             {

@@ -15,6 +15,7 @@ public class Portal : MonoBehaviour
     RenderTexture viewTexture;
     Camera portalCam;
     Camera playerCam;
+    private bool hasRenderedOnce;
     private PlayerFOV _playerFOV;
     Material firstRecursionMat;
     public List<PortalTraveller> trackedTravellers;
@@ -91,15 +92,19 @@ public class Portal : MonoBehaviour
     public void Render()
     {
         // Skip rendering the view from this portal if player is not looking at the linked portal
-        if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
+        if (hasRenderedOnce)
         {
-            return;
-        }
+            if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
+            {
+                return;
+            }
 
-        if (!_playerFOV.listOfTargets.Contains(linkedPortal.gameObject) && !forceRenderPortal)
-        {
-            return;
+            if (!_playerFOV.listOfTargets.Contains(linkedPortal.gameObject) && !forceRenderPortal)
+            {
+                return;
+            }
         }
+        
 
 
         CreateViewTexture();
@@ -249,6 +254,7 @@ public class Portal : MonoBehaviour
             portalCam.targetTexture = viewTexture;
             // Display the view texture on the screen of the linked portal
             linkedPortal.screen.material.SetTexture("_MainTex", viewTexture);
+            hasRenderedOnce = true;
         }
     }
 

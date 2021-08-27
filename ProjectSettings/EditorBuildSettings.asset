@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 287cf36bd9bae9244b79f1118ba4367f
+  - enabled: 1
+    path: Assets/Team Work/Damien/Scenes/PortalMazeDemo.unity
+    guid: 243662dfb3458fd4187686ec9a57ffd3
   m_configObjects: {}
