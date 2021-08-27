@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Damien
 {
-    [CustomEditor(typeof(PlayerFOV))]
+    /*[CustomEditor(typeof(PlayerFOV))]
     public class PlayerFOVEditor : Editor
     {
         private Vector3 targetPos;
@@ -36,5 +36,5 @@ namespace Damien
 
             }
         }
-    }
+    }*/
 }

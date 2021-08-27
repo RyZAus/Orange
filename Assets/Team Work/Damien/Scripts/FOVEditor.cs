@@ -1,7 +1,7 @@
 ﻿using Damien;
 using UnityEditor;
 using UnityEngine;
-
+/*
 [CustomEditor(typeof(FOV))]
 
 public class FOVEditor : Editor
@@ -26,4 +26,4 @@ public class FOVEditor : Editor
             Handles.DrawLine(fov.transform.position, playerTarget.transform.position);
         }
     }
-}
+}*/
