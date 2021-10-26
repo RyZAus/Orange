@@ -52,3 +52,8 @@ Assets/Materials/Grey.mat
 UserSettings/EditorUserSettings.asset
 
 Assets/Materials/Grey.mat.meta
+Assets/TerrainTexturesPackFree/TerrainTextures/GrassUV01.png.meta
+Assets/TerrainTexturesPackFree/TerrainTextures/GrassUV01_N.png.meta
+Assets/TerrainTexturesPackFree/TerrainTextures/GrassUV02.png
+Assets/TerrainTexturesPackFree/TerrainTextures/GrassUV02_N.png
+*.meta
