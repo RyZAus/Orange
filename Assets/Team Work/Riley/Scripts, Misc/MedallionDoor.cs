@@ -5,76 +5,26 @@ using UnityEngine;
 
 public class MedallionDoor : MonoBehaviour
 {
-    //Private Vars
-    private ItemBase[] medallionArray;
-    private int medallionCounter;
-    private bool isDoorOpen;
+    public ObjectTriggerEnter[] triggers;
+    public GameObject[] slots;
+    public bool[] slotUsed;
 
-    //Public Vars
-    public GameObject medallionSlot1;
-    public GameObject medallionSlot2;
-    public GameObject medallionSlot3;
-
-    private void Start()
+    private void Update()
     {
-        isDoorOpen = false;
-        medallionCounter = 0;
-    }
-
-    private void FixedUpdate()
-    {
-        if (medallionCounter == 3)
+        for (int i = 0; i < 3; i++) //HACK - Fixed at 3
         {
-            isDoorOpen = true;
-            OpenDoor();
-        }
-        if (medallionArray != null && isDoorOpen == false)
-        {
-            medallionCounter = 0;
-            for (int i = 0; i < medallionArray.Length; i++)
+            if (slotUsed[i] == false && triggers[i].snached != null)
             {
-                if (medallionArray[i].thisItemType == ItemBase.itemType.medallion1)
-                {
-                    medallionCounter += 1;
-                }
-                else if(medallionArray[i].thisItemType == ItemBase.itemType.medallion2)
-                {
-                    medallionCounter += 1;
-                }
-                else if(medallionArray[i].thisItemType == ItemBase.itemType.medallion3)
-                {
-                    medallionCounter += 1;
-                }
+                SetObject(triggers[i].snached, slots[i], slotUsed[i]);
             }
         }
     }
 
-    public void SlotMedallionIn(GameObject medallion)
+    private void SetObject(GameObject objectTo, GameObject slot, bool slotUsed)
     {
-        if (medallion.GetComponent<ItemBase>() != null)
-        {
-            ItemBase medallionIB = medallion.GetComponent<ItemBase>();
-            if (medallionIB.thisItemType == ItemBase.itemType.medallion1)
-            {
-                medallionIB.isUsed = true;
-                medallionArray[medallionArray.Length] = medallionIB;
-            }
-            else if(medallion.GetComponent<ItemBase>().thisItemType == ItemBase.itemType.medallion2)
-            {
-                medallionIB.isUsed = true;
-                medallionArray[medallionArray.Length] = medallionIB;
-            }
-            else if(medallion.GetComponent<ItemBase>().thisItemType == ItemBase.itemType.medallion3)
-            {
-                medallionIB.isUsed = true;
-                medallionArray[medallionArray.Length] = medallionIB;
-            }
-        }
-    }
-    
-    private void OpenDoor()
-    {
-        Vector3 thisPos = gameObject.transform.position;
-        gameObject.transform.position = new Vector3(thisPos.x, thisPos.y - 10, thisPos.z);
+        objectTo.transform.parent = slot.transform;
+        objectTo.transform.position = slot.transform.position;
+        objectTo.transform.rotation = slot.transform.rotation;
+        slotUsed = true;
     }
 }
