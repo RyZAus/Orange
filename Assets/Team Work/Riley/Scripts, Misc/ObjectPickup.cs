@@ -70,4 +70,9 @@ public class ObjectPickup : ItemEnum
     {
         isColliding = false;
     }
+
+    public void FixInPlace()
+    {
+        rigidbody.isKinematic = true;
+    }
 }

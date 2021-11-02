@@ -13,6 +13,9 @@ public class ObjectTriggerEnter : ItemEnum
         {
             if (other.GetComponent<ObjectPickup>().identity == slotRequirement)
             {
+                ObjectPickup thisObject = other.GetComponent<ObjectPickup>();
+                thisObject.isPickedUp = false;
+                thisObject.FixInPlace();
                 snached = other.gameObject;
             }
         }

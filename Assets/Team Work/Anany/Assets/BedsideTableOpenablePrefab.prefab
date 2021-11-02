@@ -180,6 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052363bfd2068e34f8a231b195003088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawOpenDistance: 0.4
 --- !u!1001 &9083788635709080453
 PrefabInstance:
   m_ObjectHideFlags: 0
