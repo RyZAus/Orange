@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Damien;
 using UnityEngine;
 
@@ -15,19 +16,23 @@ public class Portal : MonoBehaviour
     RenderTexture viewTexture;
     Camera portalCam;
     Camera playerCam;
-    private bool hasRenderedOnce;
+    private bool hasPreRendered;
     private PlayerFOV _playerFOV;
     Material firstRecursionMat;
     public List<PortalTraveller> trackedTravellers;
     MeshFilter screenMeshFilter;
     private Renderer pRenderer;
+    private int renderCounter = 0;
     private bool forceRenderPortal;
+    // testing code
 
     void Awake()
     {
         _playerFOV = FindObjectOfType<PlayerFOV>();
         ResetPortal();
         pRenderer = gameObject.GetComponentInChildren<Renderer>();
+        //testing code
+        
     }
 
     void ResetPortal()
@@ -44,6 +49,7 @@ public class Portal : MonoBehaviour
     {
         HandleTravellers();
     }
+
 
     void HandleTravellers()
     {
@@ -91,19 +97,13 @@ public class Portal : MonoBehaviour
     // Called after PrePortalRender, and before PostPortalRender
     public void Render()
     {
-        // Skip rendering the view from this portal if player is not looking at the linked portal
-        if (hasRenderedOnce)
+        
+        if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
         {
-            if (!CameraUtility.VisibleFromCamera(linkedPortal.screen, playerCam))
-            {
-                return;
-            }
-
-            if (!_playerFOV.listOfTargets.Contains(linkedPortal.gameObject) && !forceRenderPortal)
-            {
-                return;
-            }
+            return;
         }
+        
+        
         
 
 
@@ -234,7 +234,7 @@ public class Portal : MonoBehaviour
     {
         foreach (var traveller in trackedTravellers)
         {
-            UpdateSliceParams(traveller);
+            //UpdateSliceParams(traveller);
         }
 
         ProtectScreenFromClipping(playerCam.transform.position);
@@ -254,7 +254,11 @@ public class Portal : MonoBehaviour
             portalCam.targetTexture = viewTexture;
             // Display the view texture on the screen of the linked portal
             linkedPortal.screen.material.SetTexture("_MainTex", viewTexture);
-            hasRenderedOnce = true;
+            renderCounter++;
+            if (renderCounter < 10)
+            {
+                hasPreRendered = true;
+            }
         }
     }
 
@@ -304,13 +308,13 @@ public class Portal : MonoBehaviour
         // Apply parameters
         for (int i = 0; i < traveller.originalMaterials.Length; i++)
         {
-            traveller.originalMaterials[i].SetVector("sliceCentre", slicePos);
-            traveller.originalMaterials[i].SetVector("sliceNormal", sliceNormal);
-            traveller.originalMaterials[i].SetFloat("sliceOffsetDst", sliceOffsetDst);
-
-            traveller.cloneMaterials[i].SetVector("sliceCentre", cloneSlicePos);
-            traveller.cloneMaterials[i].SetVector("sliceNormal", cloneSliceNormal);
-            traveller.cloneMaterials[i].SetFloat("sliceOffsetDst", cloneSliceOffsetDst);
+            //traveller.originalMaterials[i].SetVector("sliceCentre", slicePos);
+            //traveller.originalMaterials[i].SetVector("sliceNormal", sliceNormal);
+            //traveller.originalMaterials[i].SetFloat("sliceOffsetDst", sliceOffsetDst);
+            //
+            //traveller.cloneMaterials[i].SetVector("sliceCentre", cloneSlicePos);
+            //traveller.cloneMaterials[i].SetVector("sliceNormal", cloneSliceNormal);
+            //traveller.cloneMaterials[i].SetFloat("sliceOffsetDst", cloneSliceOffsetDst);
         }
     }
 

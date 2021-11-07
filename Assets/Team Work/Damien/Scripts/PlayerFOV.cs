@@ -11,6 +11,12 @@ namespace Damien
     {
         public LayerMask targets;
         private Vector3 playerPos;
+        private Vector3 playerPosOffsetL;
+        private Vector3 playerPosOffsetR;
+        private Vector3 playerLocalPos;
+        public float offset;
+        private bool renderPortal;
+        private Camera playerCamera;
 
         public float viewRadius = 30f;
         [Range(0, 360)] public float viewAngle = 90f;
@@ -22,12 +28,15 @@ namespace Damien
 
         private void Start()
         {
+            playerCamera = GetComponentInChildren<Camera>();
             StartCoroutine("SeeThings", 0.1f);
         }
 
         private void Update()
         {
             playerPos = transform.position;
+            playerLocalPos = playerCamera.transform.position;
+            
         }
 
         IEnumerator SeeThings(float delay)
@@ -42,36 +51,59 @@ namespace Damien
         void DetectThings()
         {
                 //clears the list of targets ready to scan the area again
-                
-                //Collects all colliders that have the layermask marked as a target
                 listOfTargets.Clear();
+                renderPortal = false;
                 Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targets);
                 for (int i = 0; i < targetsInViewRadius.Length; i++)
                 {
                     Collider target = targetsInViewRadius[i];
                     Vector3 targetPos = target.transform.position;
                     //checks if the target that is inside the view range is also within the view cone
-                    Vector3 dirToTarget = (targetPos - transform.position).normalized; 
-                    Vector3 topHit = new Vector3(targetPos.x, targetPos.y + 1f, targetPos.z);
-                    Vector3 leftHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z - 1f);
-                    Vector3 rightHit = new Vector3(targetPos.x, targetPos.y + 1.5f, targetPos.z + 1f);
-                   
+                    Vector3 dirToTarget = (targetPos - transform.position).normalized;
+
                     if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2) 
                     {
                         float distance = Vector3.Distance(playerPos, target.transform.position);
                         //Debug.Log(distance);
-                        RaycastHit hit1;
+                        RaycastHit middleHit;
+                        RaycastHit leftHit;
+                        RaycastHit rightHit;
                         //checks if there is anything blocking the line of sight to the target
-                        Physics.Raycast(playerPos, dirToTarget, out hit1, distance);
+                        Physics.Raycast(playerPos, dirToTarget, out middleHit, distance);
                         Debug.DrawRay(playerPos, dirToTarget, Color.magenta, 1);
+                        Physics.Raycast(playerPosOffsetL, dirToTarget, out leftHit, distance);
+                        Debug.DrawRay(playerPosOffsetL, dirToTarget, Color.magenta, 1);
+                        Physics.Raycast(playerPosOffsetR, dirToTarget, out rightHit, distance);
+                        Debug.DrawRay(playerPosOffsetR, dirToTarget, Color.magenta, 1);
                         
-                            
-                        if (hit1.collider == targetsInViewRadius[i])
+                        if (middleHit.collider == targetsInViewRadius[i])
                         {
-                           Debug.DrawRay(transform.position, dirToTarget, Color.green, 1);
+                            Debug.DrawRay(transform.position, dirToTarget, Color.green, 1);
                             //adds the target to the list of valid Targets
+                            //listOfTargets.Add(target.gameObject);
+                            renderPortal = true;
+                        }
+                        if (leftHit.collider == targetsInViewRadius[i])
+                        {
+                            Debug.DrawRay(playerPosOffsetL, dirToTarget, Color.green, 1);
+                            //adds the target to the list of valid Targets
+                            //listOfTargets.Add(target.gameObject);
+                            renderPortal = true;
+
+                        }
+                        if (rightHit.collider == targetsInViewRadius[i])
+                        {
+                           Debug.DrawRay(playerPosOffsetR, dirToTarget, Color.green, 1);
+                            //adds the target to the list of valid Targets
+                            //listOfTargets.Add(target.gameObject);
+                            renderPortal = true;
+                        }
+
+                        if (renderPortal)
+                        {
                             listOfTargets.Add(target.gameObject);
                         }
+                        
                         
                     }
                 }

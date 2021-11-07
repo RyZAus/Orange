@@ -40,7 +40,7 @@ public class PortalTraveller : MonoBehaviour
         // Disable slicing
         for (int i = 0; i < originalMaterials.Length; i++)
         {
-            originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
+            //originalMaterials[i].SetVector("sliceNormal", Vector3.zero);
         }
     }
 

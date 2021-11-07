@@ -237,10 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57b9885b89b6d4fbe92f77801ecc3671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linkedPortal: {fileID: 0}
+  linkedPortal: {fileID: 3743597651704331078}
   screen: {fileID: 6742115080021338292}
   recursionLimit: 1
-  nearClipOffset: 0.05
+  nearClipOffset: 0.2
   nearClipLimit: 0.2
   trackedTravellers: []
 --- !u!65 &3743597651704331079
@@ -254,7 +254,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.04, y: 3, z: 0.2}
+  m_Size: {x: 4.04, y: 3, z: 2}
   m_Center: {x: 0, y: 1.38, z: 0}
 --- !u!54 &3743597651704331072
 Rigidbody:
@@ -289,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2889781342255249479
 Transform:
   m_ObjectHideFlags: 0
@@ -499,6 +499,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2dc86ca70c76d784a89816400d6303fc,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2dc86ca70c76d784a89816400d6303fc,
         type: 3}
