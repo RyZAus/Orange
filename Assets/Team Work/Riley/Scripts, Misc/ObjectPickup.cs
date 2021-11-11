@@ -41,10 +41,10 @@ public class ObjectPickup : ItemEnum
     //When the mouse is clicked
     private void OnMouseDown()
     {
+        transform.parent = pickupPoint;
         isPickedUp = true;
         rigidbody.useGravity = false;
         transform.position = pickupPoint.position;
-        transform.parent = pickupPoint;
     }
 
     //When the mouse is no longer clicked

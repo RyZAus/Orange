@@ -16,20 +16,20 @@ public class DrawOpen : MonoBehaviour
 
     private void Start()
     {
-        placeToStart = transform.position;
-        placeToMove = new Vector3(transform.position.x, transform.position.y, transform.position.z + drawOpenDistance);
+        placeToStart = transform.localPosition;
+        placeToMove = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + drawOpenDistance);
     }
 
     private void OnMouseDown()
     {
         if (isOpen == false)
         {
-            transform.position = placeToMove;
+            transform.localPosition = placeToMove;
             isOpen = true;
         }
         else if (isOpen == true)
         {
-            transform.position = placeToStart;
+            transform.localPosition = placeToStart;
             isOpen = false;
         }
     }
