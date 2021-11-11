@@ -9,6 +9,8 @@ public class MedallionDoor : MonoBehaviour
     public GameObject[] slots;
     public bool[] slotsUsed;
 
+    public GameObject[] doorToMove;
+        
     private void Update()
     {
         for (int i = 0; i < 3; i++) //HACK - Fixed at 3
@@ -35,8 +37,11 @@ public class MedallionDoor : MonoBehaviour
             }
             if (counter == slotsUsed.Length)
             {
-                Vector3 transformUnder = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
-                transform.position = transformUnder;
+                for (int j = 0; j < doorToMove.Length; j++)
+                {
+                    Vector3 transformUnder = new Vector3(doorToMove[j].transform.position.x, doorToMove[j].transform.position.y - 10, doorToMove[j].transform.position.z);
+                    doorToMove[j].transform.position = transformUnder;
+                }
             }
         }
     }
