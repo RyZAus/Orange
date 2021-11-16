@@ -8,8 +8,8 @@ namespace Damien
 {
     public class Menu : MonoBehaviour
     {
+        public AudioSource music;
         public GameManager _gameManager;
-
         private void Awake()
         {
             _gameManager = FindObjectOfType<GameManager>();
@@ -22,7 +22,6 @@ namespace Damien
 
         public void Options()
         {
-            
         }
 
         public void QuitGame()
@@ -40,6 +39,10 @@ namespace Damien
         public void Resume()
         {
             _gameManager.ResumeGame();
+        }
+
+        public void HoverSound()
+        {
         }
     }
 }
