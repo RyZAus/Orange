@@ -9,7 +9,7 @@ public class GridPuzzleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //grid = gameObject.GetComponentsInChildren<>();
     }
     // Update is called once per frame
     void Update()
