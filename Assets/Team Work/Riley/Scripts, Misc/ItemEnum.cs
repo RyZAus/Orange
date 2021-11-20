@@ -6,9 +6,11 @@ public class ItemEnum : MonoBehaviour
 {
     public enum IdentityOfObjects
     {
+        //Any item in game can be added here.
         Medallion1,
         Medallion2,
         Medallion3,
-        SlidingPiece
+        SlidingPiece,
+        TurningPiece
     }
 }

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 4091454020345290998}
   - component: {fileID: 4091454020345290996}
   - component: {fileID: 4091454020345290997}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: StorageSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

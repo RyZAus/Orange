@@ -45,6 +45,7 @@ public class ObjectPickup : ItemEnum
         isPickedUp = true;
         rigidbody.useGravity = false;
         transform.position = pickupPoint.position;
+        UnFixInPlace();
     }
 
     //When the mouse is no longer clicked
@@ -74,5 +75,10 @@ public class ObjectPickup : ItemEnum
     public void FixInPlace()
     {
         rigidbody.isKinematic = true;
+    }
+    
+    public void UnFixInPlace()
+    {
+        rigidbody.isKinematic = false;
     }
 }
