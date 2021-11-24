@@ -6,24 +6,18 @@ using UnityEngine;
 public class RotationPiece : MonoBehaviour
 {
     //Private Vars
-    private int counter;
+    public int counter;
     private bool isActive;
     private bool isCoroutineActive;
 
     //Public Vars
     public int timeToMove;
     public float[] anglesToRotate;
-    public directionToRotate thisDirection;
-
-    public enum directionToRotate
-    {
-        x,
-        y,
-        z
-    }
+    public Quaternion rotation;
 
     private void Start()
     {
+        rotation = transform.localRotation;
         isCoroutineActive = false;
         isActive = false;
         counter = 0;
@@ -48,21 +42,8 @@ public class RotationPiece : MonoBehaviour
     {
         if (isActive == true)
         {
-            if (thisDirection == directionToRotate.x)
-            {
-                Vector3 rotation = new Vector3(anglesToRotate[counter], 0, 0);
-                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, rotation, Time.deltaTime * timeToMove / 2);
-            }
-            if (thisDirection == directionToRotate.y)
-            {
-                Vector3 rotation = new Vector3(0, anglesToRotate[counter], 0);
-                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, rotation, Time.deltaTime * timeToMove / 2);
-            }
-            if (thisDirection == directionToRotate.z)
-            {
-                Vector3 rotation = new Vector3(0, 0, anglesToRotate[counter]);
-                transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, rotation, Time.deltaTime * timeToMove / 2);
-            }
+            rotation.z = anglesToRotate[counter];
+            transform.localRotation = rotation;
         }
     }
 
