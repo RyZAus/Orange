@@ -399,7 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   graphicsObject: {fileID: 7665427741182837590}
   walkSpeed: 4
-  runSpeed: 8
+  runSpeed: 4
   smoothMoveTime: 0.1
   jumpForce: 8
   gravity: 18
