@@ -6,22 +6,54 @@ using UnityEngine;
 public class PaintingManager : MonoBehaviour
 {
     //Private Vars
+    public int counter;
     
     //Public Vars
-    public GameObject storedObject;
-    public GameObject snapPoint;
-    public ObjectTriggerEnter activeScript;
-    private void FixedUpdate()
+    public GameObject drawToOpen;
+    public GameObject[] pieces;
+    public float[] requiredAngles;
+
+    private void Start()
     {
-        if (activeScript.snached != null)
+        counter = 0;
+        foreach (GameObject currentPiece in pieces)
         {
-            //Make the object move correctly
-            storedObject = activeScript.snached;
-            storedObject.transform.position = snapPoint.transform.position;
-            storedObject.transform.rotation = snapPoint.transform.rotation;
-            storedObject.transform.parent = snapPoint.transform;
-            //Remove it from active
-            activeScript.snached = null;
+            if (currentPiece.GetComponent<RotationPiece>() != null)
+            {
+                currentPiece.GetComponent<RotationPiece>().rotatedEvent += CheckRotations;
+            }
+            else
+            {
+                Debug.LogError(currentPiece + " is not a rotation piece!");
+            }
+        }
+    }
+
+    private void CheckRotations()
+    {
+        for (int i = 0; i < pieces.Length; i++)
+        {
+            RotationPiece currentPiece = pieces[i].GetComponent<RotationPiece>();
+            if (currentPiece.anglesToRotate[currentPiece.counter] == requiredAngles[i])
+            {
+                counter ++;
+            }
+        }
+        if (counter == pieces.Length)
+        {
+            CompletePuzzle();
+        }
+    }
+
+    private void CompletePuzzle()
+    {
+        if (drawToOpen != null)
+        {
+            drawToOpen.GetComponent<DrawOpen>().OpenDrawManual();
+        }
+        else
+        {
+            Debug.LogError("Final draw not assigned.");
         }
     }
 }
