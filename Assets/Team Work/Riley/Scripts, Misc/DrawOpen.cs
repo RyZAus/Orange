@@ -49,7 +49,7 @@ public class DrawOpen : MonoBehaviour
             transform.localPosition = placeToMove;
             isOpen = true;
         }
-        else if (isOpen == true)
+        else if (isOpen == true && drawLocked == false)
         {
             transform.localPosition = placeToStart;
             isOpen = false;

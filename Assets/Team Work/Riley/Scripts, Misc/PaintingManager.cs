@@ -9,9 +9,12 @@ public class PaintingManager : MonoBehaviour
     public int counter;
     
     //Public Vars
+    [Tooltip("This is the final object to open.")]
     public GameObject drawToOpen;
+    [Tooltip("All pieces that are connected to the painting.")]
     public GameObject[] pieces;
-    public float[] requiredAngles;
+    [Tooltip("This should be a number representing which angle should match.")]
+    public int[] requiredAngles;
 
     private void Start()
     {
@@ -34,7 +37,7 @@ public class PaintingManager : MonoBehaviour
         for (int i = 0; i < pieces.Length; i++)
         {
             RotationPiece currentPiece = pieces[i].GetComponent<RotationPiece>();
-            if (currentPiece.anglesToRotate[currentPiece.counter] == requiredAngles[i])
+            if (currentPiece.counter == requiredAngles[i])
             {
                 counter ++;
             }
@@ -42,6 +45,10 @@ public class PaintingManager : MonoBehaviour
         if (counter == pieces.Length)
         {
             CompletePuzzle();
+        }
+        else
+        {
+            counter = 0;
         }
     }
 
