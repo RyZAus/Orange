@@ -6,23 +6,25 @@ using UnityEngine;
 public class RotationPiece : MonoBehaviour
 {
     //Private Vars
-    public int counter;
     private bool isActive;
     private bool isCoroutineActive;
 
     //Public Vars
+    public int counter;
     public int timeToMove;
     public float[] anglesToRotate;
-    public Quaternion rotation;
-
+    public Vector3 thisRotation;
+    public event Action rotatedEvent;
+    
     private void Start()
     {
-        rotation = transform.localRotation;
         isCoroutineActive = false;
         isActive = false;
         counter = 0;
+        thisRotation = transform.rotation.eulerAngles;
     }
-
+            //Notice how we don't read every frame
+            
     //If the player wants to rotate
     private void OnMouseDown()
     {
@@ -42,8 +44,9 @@ public class RotationPiece : MonoBehaviour
     {
         if (isActive == true)
         {
-            rotation.z = anglesToRotate[counter];
-            transform.localRotation = rotation;
+            thisRotation.z = anglesToRotate[counter];
+            transform.rotation = Quaternion.Euler(thisRotation);
+            //transform.rotation = Quaternion.Slerp(transform.rotation, thisRotation, Time.deltaTime * timeToMove / 2);
         }
     }
 
@@ -55,6 +58,7 @@ public class RotationPiece : MonoBehaviour
         yield return new WaitForSeconds(timeToMove);
         isActive = false;
         counter += 1;
+        rotatedEvent?.Invoke();
         isCoroutineActive = false;
     }
 }
