@@ -13,21 +13,43 @@ public class DrawOpen : MonoBehaviour
     //Public Vars
     [Tooltip("Standard draws are 0.4")]
     public float drawOpenDistance;
-
+    
+    [Tooltip("Is this draw locked by a puzzle?")]
+    public bool drawLocked;
+    
     private void Start()
     {
         placeToStart = transform.localPosition;
         placeToMove = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + drawOpenDistance);
     }
 
+    //Player click to open draw
     private void OnMouseDown()
+    {
+        if (drawLocked == false)
+        {
+            OpenDrawRun();
+        }
+    }
+
+    //Puzzles function to open draw rather than player
+    public void OpenDrawManual()
+    {
+        if (drawLocked == true)
+        {
+            OpenDrawRun();
+        }
+    }
+
+    //Main draw logic
+    private void OpenDrawRun()
     {
         if (isOpen == false)
         {
             transform.localPosition = placeToMove;
             isOpen = true;
         }
-        else if (isOpen == true)
+        else if (isOpen == true && drawLocked == false)
         {
             transform.localPosition = placeToStart;
             isOpen = false;
