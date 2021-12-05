@@ -168,13 +168,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc66b8643a71ab4492b0f17a43fc686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  findNavPoint:
+  buffer:
     isRunning: 0
-  navToPoint:
+  navigate:
     isRunning: 0
-  navToPlayer:
+  attack:
     isRunning: 0
-  attackPlayer:
-    isRunning: 0
-  safeDistance: 5
-  possibleNavPoints: []
+  navigationPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  playerLossTime: 5

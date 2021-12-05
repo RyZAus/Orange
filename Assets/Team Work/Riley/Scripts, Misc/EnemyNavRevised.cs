@@ -1,277 +1,180 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Damien;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace RileyMcGowan
 {
     public class EnemyNavRevised : MonoBehaviour
     {
         //Delegate State / Manager
-        public DelegateStateManager currentStateManager = new DelegateStateManager();
-        public DelegateState findNavPoint = new DelegateState();
-        public DelegateState navToPoint = new DelegateState();
-        public DelegateState navToPlayer = new DelegateState();
-        public DelegateState attackPlayer = new DelegateState();
+        public DelegateStateManager currentState = new DelegateStateManager();
+        public DelegateState buffer = new DelegateState();
+        public DelegateState navigate = new DelegateState();
+        public DelegateState attack = new DelegateState();
 
         //Private Vars
+        private FOV enemyFOV;
+        private IEnumerator currentCo;
         private NavMeshAgent navMeshRef;
-        private Damien.FOV enemyFOV;
-        private NavRoomManager navRoomRef;
-        private GameObject patrolTarget;
-        private GameObject playerTarget;
-        private Vector3 locationCheck;
-        private Vector3 playerPreviousLocation;
-        private bool hasPreviousLocation;
-        public bool isDaTingStopped;
-        
+        private bool doWeHavePlayer = false;
+        private bool blind = false;
+        private float safeDistance = 5;
+        private GameObject navigationPoint;
+        private Vector3 pastNavigationPoint;
+
         //Public Vars
-        public List<GameObject> possibleNavPoints;
-        public float safeDistance = 5;
-        
+        public GameObject[] navigationPoints;
+        public float playerLossTime;
+
         private void Start()
         {
-            //Default Vars
-            hasPreviousLocation = false;
-            isDaTingStopped = true;
             //Grab References
             if (GetComponent<Damien.FOV>() != null)
             {
                 enemyFOV = GetComponent<Damien.FOV>();
             }
+
             if (GetComponent<NavMeshAgent>() != null)
             {
                 navMeshRef = GetComponent<NavMeshAgent>();
             }
-            if (FindObjectOfType<NavRoomManager>() != null)
-            {
-                navRoomRef = FindObjectOfType<NavRoomManager>();
-            }
-            else
-            {
-                Debug.Log("Enemy cannot nav, needs NavRoomManager.");
-                return;
-            }
+
+            currentCo = DelayCounter();
+            
             //Set state defaults
-            findNavPoint.Enter = StartFindNavPoint;
-            findNavPoint.Update = UpdateFindNavPoint;
-            findNavPoint.Exit = EndFindNavPoint;
-            navToPoint.Enter = StartNavToPoint;
-            navToPoint.Update = UpdateNavToPoint;
-            navToPoint.Exit = EndNavToPoint;
-            navToPlayer.Enter = StartNavToPlayer;
-            navToPlayer.Update = UpdateNavToPlayer;
-            navToPlayer.Exit = EndNavToPlayer;
-            attackPlayer.Enter = StartAttackPlayer;
-            attackPlayer.Update = UpdateAttackPlayer;
-            attackPlayer.Exit = EndAttackPlayer;
-            //Swap state
-            currentStateManager.ChangeState(findNavPoint);
+            buffer.Enter = Buffer_Enter;
+            buffer.Update = Buffer_Update;
+            buffer.Exit = Buffer_Exit;
+            navigate.Enter = Navigate_Enter;
+            navigate.Update = Navigate_Update;
+            navigate.Exit = Navigate_Exit;
+            attack.Enter = Attack_Enter;
+            attack.Update = Attack_Update;
+            attack.Exit = Attack_Exit;
+
+            //Swap current state
+            currentState.ChangeState(buffer);
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
-            //Make the states update
-            currentStateManager.UpdateState();
-            //If the FOV has a target
-            if (playerTarget == null && enemyFOV.listOfTargets.Count > 0)
+            //Update the update for states
+            currentState.UpdateState();
+            if (doWeHavePlayer == false && enemyFOV.listOfTargets.Count > 0 && blind == false)
             {
-                //Playertarget is now relevant
-                playerTarget = enemyFOV.listOfTargets[0]; //HACK FOR 1 PLAYER
-                //Nav to player
-                currentStateManager.ChangeState(navToPlayer);
+                doWeHavePlayer = true;
+                navigationPoint = enemyFOV.listOfTargets[0];
             }
-            else
+            else if (doWeHavePlayer == true && enemyFOV.listOfTargets.Count > 0)
             {
-                //If we have a player target set the previous location
-                if (playerTarget != null && enemyFOV.listOfTargets.Count < 1 && isDaTingStopped == true)
-                {
-                    playerPreviousLocation = playerTarget.transform.position;
-                    hasPreviousLocation = true;
-                    //Then set player target to null
-                    playerTarget = null;
-                }
+                ResetDelayCounter();
             }
         }
 
         /// <summary>
-        /// Find a nav location
+        /// Find Nav Point
         /// </summary>
-        private void StartFindNavPoint()
-        {
-            //Reset the patrol target and stop nav
-            ResetNavPath(patrolTarget);
-            //Get a new navpoint
-            patrolTarget = navRoomRef.GetNavPoint();
-            //Set the players previous location
-            hasPreviousLocation = false;
-        }
+        private void Buffer_Enter() {}
 
-        private void UpdateFindNavPoint()
+        private void Buffer_Update()
         {
-            if (patrolTarget != null && playerTarget == null)
+            //Where do we want the AI to chase
+            if (doWeHavePlayer == false)
             {
-                currentStateManager.ChangeState(navToPoint);
+                currentState.ChangeState(navigate);
             }
-            else if (patrolTarget == null && playerTarget == null)
+            else if (doWeHavePlayer == true)
             {
-                patrolTarget = navRoomRef.GetNavPoint();
+                currentState.ChangeState(attack);
             }
         }
 
-        private void EndFindNavPoint()
+        private void Buffer_Exit() {}
+
+        /// <summary>
+        /// Start Navigating
+        /// </summary>
+        private void Navigate_Enter()
         {
-            
+            navigationPoint = navigationPoints[Random.Range(0, navigationPoints.Length)];
+            navMeshRef.SetDestination(navigationPoint.transform.position);
+        }
+
+        private void Navigate_Update()
+        {
+            if (navMeshRef.remainingDistance <= safeDistance || doWeHavePlayer == true)
+            {
+                navMeshRef.ResetPath();
+                currentState.ChangeState(buffer);
+            }
+        }
+
+        private void Navigate_Exit() {}
+
+        /// <summary>
+        /// Chase and attack the player
+        /// </summary>
+        private void Attack_Enter()
+        {
+            pastNavigationPoint = navigationPoint.transform.position;
+            navMeshRef.SetDestination(navigationPoint.transform.position);
+            StartCoroutine(currentCo);
+        }
+
+        private void Attack_Update()
+        {
+            if (doWeHavePlayer == false)
+            {
+                navMeshRef.ResetPath();
+                currentState.ChangeState(buffer);
+            }
+            else if (navMeshRef.remainingDistance <= safeDistance)
+            {
+                navMeshRef.ResetPath();
+                currentState.ChangeState(buffer);
+                AttackThePlayer();
+            }
+            else if (pastNavigationPoint != navigationPoint.transform.position && doWeHavePlayer == true)
+            {
+                navMeshRef.ResetPath();
+                pastNavigationPoint = navigationPoint.transform.position;
+                navMeshRef.SetDestination(navigationPoint.transform.position);
+            }
+        }
+
+        private void Attack_Exit()
+        {
+            StartCoroutine(BlindDelay());
+            doWeHavePlayer = false;
         }
         
-        /// <summary>
-        /// Move to location
-        /// </summary>
-        private void StartNavToPoint()
+        private void AttackThePlayer()
         {
-            StartNavigation(patrolTarget.transform.position);
+            //Attack the player visuals
         }
 
-        private void UpdateNavToPoint()
+        private void ResetDelayCounter()
         {
-            if (playerTarget == null && patrolTarget == null && isDaTingStopped == true)
-            {
-                currentStateManager.ChangeState(findNavPoint);
-            }
-            CheckNavigation(patrolTarget);
-        }
-
-        private void EndNavToPoint()
-        {
-            
-        }
-
-        /// <summary>
-        /// Move to player
-        /// </summary>
-        private void StartNavToPlayer()
-        {
-            //Starts nav to player
-            StartNavigation(playerTarget.transform.position);
-        }
-
-        private void UpdateNavToPlayer()
-        {
-            if (navMeshRef.isStopped == true && playerTarget != null)
-            {
-                StartNavigation(playerTarget.transform.position);
-            }
-            //If I don't have a player
-            if (playerTarget == null)
-            {
-                //Reset everything
-                ResetNavPath();
-                StartNavigation(playerPreviousLocation);
-                currentStateManager.ChangeState(findNavPoint);
-            }
-            else
-            {
-                CheckNavigation(playerTarget, true);
-            }
-            if (isDaTingStopped == true && hasPreviousLocation == false)
-            {
-                Debug.Log(navMeshRef.isStopped);
-                currentStateManager.ChangeState(attackPlayer);
-            }
-        }
-
-        private void EndNavToPlayer()
-        {
-            ResetNavPath();
-        }
-
-        /// <summary>
-        /// Attack the player
-        /// </summary>
-        private void StartAttackPlayer()
-        {
-            //DEAL DAMAGE
-        }
-
-        private void UpdateAttackPlayer()
-        {
-            currentStateManager.ChangeState(findNavPoint);
-        }
-
-        private void EndAttackPlayer()
-        {
-            
+            StopCoroutine(currentCo);
+            currentCo = DelayCounter();
+            StartCoroutine(currentCo);
         }
         
-        //Start the nav path
-        void StartNavigation(Vector3 navLocation)
+        IEnumerator BlindDelay()
         {
-            isDaTingStopped = false;
-            navMeshRef.SetDestination(navLocation);
+            blind = true;
+            yield return new WaitForSeconds(playerLossTime);
+            blind = false;
         }
 
-        //Reset the nav path
-        void ResetNavPath(GameObject targetToForget = default(GameObject))
+        IEnumerator DelayCounter()
         {
-            isDaTingStopped = true;
-            targetToForget = null;
-            navMeshRef.ResetPath();
-        }
-        void ResetNavPathNoBool(GameObject targetToForget = default(GameObject))
-        {
-            targetToForget = null;
-            navMeshRef.ResetPath();
-        }
-        
-        //Check nav location
-        void CheckNavigation(GameObject navLocation, bool noBool = default(bool))
-        {
-            if (navMeshRef.remainingDistance < safeDistance || playerTarget != null && patrolTarget != null)
-            {
-                if (navMeshRef.remainingDistance < safeDistance)
-                {
-                    patrolTarget = null;
-                }
-                if (playerTarget == null)
-                {
-                    if (noBool != true)
-                    {
-                        ResetNavPath(navLocation);
-                    }
-                    else
-                    {
-                        ResetNavPathNoBool(navLocation);
-                    }
-                }
-                else
-                {
-                    if (noBool != true)
-                    {
-                        ResetNavPath();
-                    }
-                    else
-                    {
-                        ResetNavPathNoBool();
-                    }
-                }
-            }
-            else
-            {
-                locationCheck = new Vector3(navLocation.transform.position.x, navMeshRef.destination.y, navLocation.transform.position.z);
-                if (locationCheck != navMeshRef.destination)
-                {
-                    if (noBool != true)
-                    {
-                        ResetNavPath();
-                    }
-                    else
-                    {
-                        ResetNavPathNoBool();
-                    }
-                    StartNavigation(navLocation.transform.position);
-                }
-            }
+            yield return new WaitForSeconds(playerLossTime);
+            doWeHavePlayer = false;
         }
     }
 }
