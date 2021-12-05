@@ -22,13 +22,13 @@ namespace RileyMcGowan
         private NavMeshAgent navMeshRef;
         private bool doWeHavePlayer = false;
         private bool blind = false;
-        private float safeDistance = 5;
         private GameObject navigationPoint;
         private Vector3 pastNavigationPoint;
 
         //Public Vars
         public GameObject[] navigationPoints;
         public float playerLossTime;
+        public float safeDistance = 3;
 
         private void Start()
         {
@@ -134,9 +134,9 @@ namespace RileyMcGowan
             }
             else if (navMeshRef.remainingDistance <= safeDistance)
             {
+                AttackThePlayer();
                 navMeshRef.ResetPath();
                 currentState.ChangeState(buffer);
-                AttackThePlayer();
             }
             else if (pastNavigationPoint != navigationPoint.transform.position && doWeHavePlayer == true)
             {
@@ -155,6 +155,10 @@ namespace RileyMcGowan
         private void AttackThePlayer()
         {
             //Attack the player visuals
+            if (navigationPoint.GetComponent<CameraAttackEffect>() != null)
+            {
+                navigationPoint.GetComponent<CameraAttackEffect>().AttackPlayer();
+            }
         }
 
         private void ResetDelayCounter()

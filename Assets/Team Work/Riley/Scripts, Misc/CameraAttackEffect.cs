@@ -10,6 +10,7 @@ public class CameraAttackEffect : MonoBehaviour
     private bool isRunning;
     private HDAdditionalCameraData thisCameraData;
     private float originalAperture;
+    private float timeThen;
     
     //Public Vars
     public float attackAperture = 30;
@@ -27,11 +28,12 @@ public class CameraAttackEffect : MonoBehaviour
             float thisAperture = thisCameraData.physicalParameters.aperture;
             if (thisAperture > originalAperture)
             {
-                thisCameraData.physicalParameters.aperture = Mathf.Lerp(attackAperture, originalAperture, Time.time * .5f);
+                thisCameraData.physicalParameters.aperture = Mathf.Lerp(attackAperture, originalAperture, (Time.time - timeThen) * .05f);
             }
-            else if (thisAperture < originalAperture)
+            else if (thisAperture <= originalAperture)
             {
                 thisCameraData.physicalParameters.aperture = originalAperture;
+                isRunning = false;
             }
         }
     }
@@ -39,13 +41,7 @@ public class CameraAttackEffect : MonoBehaviour
     public void AttackPlayer()
     {
         thisCameraData.physicalParameters.aperture = attackAperture;
-        StartCoroutine(StartAttackDuration());
-    }
-
-    IEnumerator StartAttackDuration()
-    {
         isRunning = true;
-        yield return new WaitForSeconds(10);
-        isRunning = false;
+        timeThen = Time.time;
     }
 }

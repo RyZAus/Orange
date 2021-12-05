@@ -2785,9 +2785,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1300298242689537287}
   - component: {fileID: 1549571568365639705}
-  - component: {fileID: 1549571568365639710}
   - component: {fileID: 1549571568365639707}
   - component: {fileID: 1549571568365639706}
+  - component: {fileID: 590967163}
   m_Layer: 0
   m_Name: replika_character_animation05
   m_TagString: Untagged
@@ -2830,30 +2830,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1549571568365639710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1819532247458598845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52ff76cd3dad6094dbad64c911cf1994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  findNavPoint:
-    isRunning: 0
-  navToPoint:
-    isRunning: 0
-  navToPlayer:
-    isRunning: 0
-  attackPlayer:
-    isRunning: 0
-  playerTargetActive: 0
-  patrolTargetActive: 0
-  possibleNavPoints: []
-  safeDistance: 5
 --- !u!195 &1549571568365639707
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2894,6 +2870,67 @@ MonoBehaviour:
   viewRadius: 30
   viewAngle: 90
   listOfTargets: []
+--- !u!114 &590967163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819532247458598845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fc66b8643a71ab4492b0f17a43fc686, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffer:
+    isRunning: 0
+  navigate:
+    isRunning: 0
+  attack:
+    isRunning: 0
+  navigationPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playerLossTime: 10
 --- !u!1 &2062435395319487187
 GameObject:
   m_ObjectHideFlags: 0
