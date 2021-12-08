@@ -5,8 +5,12 @@ using UnityEngine;
 public class GridPoint : MonoBehaviour
 {
     // Start is called before the first frame update
+    public bool hasPiece;
+    public int slot;
     void Start()
     {
+        slot = GetComponentInParent<SlidingGridPiece>().slotNumber;
+        hasPiece = false;
         
     }
 

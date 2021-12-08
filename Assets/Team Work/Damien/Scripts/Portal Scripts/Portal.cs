@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Damien;
+using Tanks;
 using UnityEngine;
 
 public class Portal : MonoBehaviour
@@ -24,10 +25,13 @@ public class Portal : MonoBehaviour
     private Renderer pRenderer;
     private int renderCounter = 0;
     private bool forceRenderPortal;
+
+    public GameObject thisCamera;
     // testing code
 
     void Awake()
     {
+        thisCamera = GetComponentInChildren<Camera>().gameObject;
         _playerFOV = FindObjectOfType<PlayerFOV>();
         ResetPortal();
         pRenderer = gameObject.GetComponentInChildren<Renderer>();

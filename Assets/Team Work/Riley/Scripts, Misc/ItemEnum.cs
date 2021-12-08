@@ -11,6 +11,7 @@ public class ItemEnum : MonoBehaviour
         Medallion2,
         Medallion3,
         SlidingPiece,
-        TurningPiece
+        TurningPiece,
+        Heart
     }
 }
