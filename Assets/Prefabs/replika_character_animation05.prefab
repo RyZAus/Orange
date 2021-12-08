@@ -2821,7 +2821,7 @@ Animator:
   m_GameObject: {fileID: 1819532247458598845}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: baa9672fbf3cfe6439df971b01021767, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6eae371133bc303488481d386dd8298b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2931,6 +2931,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   playerLossTime: 10
+  safeDistance: 3
 --- !u!1 &2062435395319487187
 GameObject:
   m_ObjectHideFlags: 0
@@ -5767,7 +5768,7 @@ Animator:
   m_GameObject: {fileID: 5684055327230767811}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: baa9672fbf3cfe6439df971b01021767, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

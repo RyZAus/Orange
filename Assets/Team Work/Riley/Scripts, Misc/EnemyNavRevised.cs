@@ -24,6 +24,7 @@ namespace RileyMcGowan
         private bool blind = false;
         private GameObject navigationPoint;
         private Vector3 pastNavigationPoint;
+        private Animator thisAnimator;
 
         //Public Vars
         public GameObject[] navigationPoints;
@@ -42,7 +43,11 @@ namespace RileyMcGowan
             {
                 navMeshRef = GetComponent<NavMeshAgent>();
             }
-
+            
+            if (GetComponent<Animator>() != null)
+            {
+                thisAnimator = GetComponent<Animator>();
+            }
             currentCo = DelayCounter();
             
             //Set state defaults
@@ -100,6 +105,7 @@ namespace RileyMcGowan
         /// </summary>
         private void Navigate_Enter()
         {
+            thisAnimator.SetTrigger("Run");
             navigationPoint = navigationPoints[Random.Range(0, navigationPoints.Length)];
             navMeshRef.SetDestination(navigationPoint.transform.position);
         }
@@ -108,6 +114,7 @@ namespace RileyMcGowan
         {
             if (navMeshRef.remainingDistance <= safeDistance || doWeHavePlayer == true)
             {
+                thisAnimator.SetTrigger("Stop");
                 navMeshRef.ResetPath();
                 currentState.ChangeState(buffer);
             }
@@ -120,6 +127,7 @@ namespace RileyMcGowan
         /// </summary>
         private void Attack_Enter()
         {
+            thisAnimator.SetTrigger("Chase");
             pastNavigationPoint = navigationPoint.transform.position;
             navMeshRef.SetDestination(navigationPoint.transform.position);
             StartCoroutine(currentCo);
@@ -129,6 +137,7 @@ namespace RileyMcGowan
         {
             if (doWeHavePlayer == false)
             {
+                thisAnimator.SetTrigger("Stop");
                 navMeshRef.ResetPath();
                 currentState.ChangeState(buffer);
             }
@@ -155,6 +164,7 @@ namespace RileyMcGowan
         private void AttackThePlayer()
         {
             //Attack the player visuals
+            thisAnimator.SetTrigger("Attack");
             if (navigationPoint.GetComponent<CameraAttackEffect>() != null)
             {
                 navigationPoint.GetComponent<CameraAttackEffect>().AttackPlayer();
