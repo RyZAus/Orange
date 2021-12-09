@@ -31,6 +31,7 @@ namespace RileyMcGowan
         public GameObject[] navigationPoints;
         public float playerLossTime;
         public float safeDistance = 3;
+        public int waitAfterAttack;
 
         private void Start()
         {
@@ -152,7 +153,8 @@ namespace RileyMcGowan
             {
                 AttackThePlayer();
                 navMeshRef.ResetPath();
-                currentState.ChangeState(buffer);
+                StartCoroutine(WaitAfterAttack());
+
             }
             else if (pastNavigationPoint != navigationPoint.transform.position && doWeHavePlayer == true)
             {
@@ -183,6 +185,12 @@ namespace RileyMcGowan
             StopCoroutine(currentCo);
             currentCo = DelayCounter();
             StartCoroutine(currentCo);
+        }
+
+        IEnumerator WaitAfterAttack()
+        {
+            yield return new WaitForSeconds(waitAfterAttack);
+            currentState.ChangeState(buffer);
         }
         
         IEnumerator BlindDelay()

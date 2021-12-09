@@ -16,13 +16,13 @@ PlayerSettings:
   productName: Replika
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.05, g: 0.05, b: 0.05, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.03, g: 0.03, b: 0.03, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
-  m_SplashScreenOverlayOpacity: 1
-  m_SplashScreenAnimation: 2
+  m_SplashScreenOverlayOpacity: 0.5
+  m_SplashScreenAnimation: 1
   m_SplashScreenLogoStyle: 1
-  m_SplashScreenDrawMode: 0
+  m_SplashScreenDrawMode: 1
   m_SplashScreenBackgroundAnimationZoom: 1
   m_SplashScreenLogoAnimationZoom: 1
   m_SplashScreenBackgroundLandscapeAspect: 1
@@ -40,7 +40,9 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
-  - logo: {fileID: 21300000, guid: 3570d10f1754bf840b3992bf6034613d, type: 3}
+  - logo: {fileID: 10404, guid: 0000000000000000e000000000000000, type: 0}
+    duration: 3
+  - logo: {fileID: 21300000, guid: 4ba145743c5e09d409c6a54fb99967ff, type: 3}
     duration: 5
   - logo: {fileID: 21300000, guid: f28162f1cb6967141ab1d64b95b31a82, type: 3}
     duration: 5
@@ -265,7 +267,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 6e1b57e1a69cacf4a8c09be9934cb174, type: 3}
+      m_Icon: {fileID: 2800000, guid: 458132c319121244b925b729a6fedc6d, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0

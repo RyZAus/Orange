@@ -16,7 +16,7 @@ public class Portal : MonoBehaviour
     // Private variables
     RenderTexture viewTexture;
     Camera portalCam;
-    Camera playerCam;
+    public Camera playerCam;
     private bool hasPreRendered;
     private PlayerFOV _playerFOV;
     Material firstRecursionMat;
@@ -26,12 +26,12 @@ public class Portal : MonoBehaviour
     private int renderCounter = 0;
     private bool forceRenderPortal;
 
-    public GameObject thisCamera;
+    //public GameObject thisCamera;
     // testing code
 
     void Awake()
     {
-        thisCamera = GetComponentInChildren<Camera>().gameObject;
+        //thisCamera = GetComponentInChildren<Camera>().gameObject;
         _playerFOV = FindObjectOfType<PlayerFOV>();
         ResetPortal();
         pRenderer = gameObject.GetComponentInChildren<Renderer>();

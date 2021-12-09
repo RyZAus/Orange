@@ -11,7 +11,7 @@ public class SlidingPiece : MonoBehaviour
     private Vector3 pos;
     private ObjectPickup objPU;
     private float objHeight;
-    private Vector3 plusHieght;
+    public Vector3 plusHieght;
     private Rigidbody rb;
     private GridPuzzleManager manager;
     void Start()
@@ -21,7 +21,7 @@ public class SlidingPiece : MonoBehaviour
         objPU = go.GetComponent<ObjectPickup>();
         rb = go.GetComponent<Rigidbody>();
         objHeight = go.transform.localScale.y;
-        plusHieght = new Vector3(0, objHeight / 2, 0);
+        plusHieght = new Vector3(0, objHeight/2, 0);
     }
 
     // Update is called once per frame

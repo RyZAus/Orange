@@ -21,13 +21,13 @@ MonoBehaviour:
     max: 360
   skyIntensityMode:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 2
   exposure:
     m_OverrideState: 0
     m_Value: 0
   multiplier:
     m_OverrideState: 0
-    m_Value: 1
+    m_Value: 5.55
     min: 0
   upperHemisphereLuxValue:
     m_OverrideState: 0
@@ -41,7 +41,7 @@ MonoBehaviour:
     m_Value: 20000
   updateMode:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   updatePeriod:
     m_OverrideState: 0
     m_Value: 0
@@ -116,11 +116,11 @@ MonoBehaviour:
     max: 1
   numberOfBounces:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 1
     min: 1
     max: 10
   groundTint:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: {r: 0.122641504, g: 0.1043775, b: 0.09313812, a: 1}
     hdr: 0
     showAlpha: 0
@@ -240,10 +240,10 @@ MonoBehaviour:
     m_Value: 50
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 4
+    m_Value: 1
     min: 1
   enableVolumetricFog:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: 1
   albedo:
     m_OverrideState: 1
@@ -258,7 +258,7 @@ MonoBehaviour:
     max: 1
   depthExtent:
     m_OverrideState: 1
-    m_Value: 5.8
+    m_Value: 8.1
     min: 0.1
   denoisingMode:
     m_OverrideState: 0

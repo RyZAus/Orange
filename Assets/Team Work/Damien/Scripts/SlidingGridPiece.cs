@@ -9,6 +9,7 @@ public class SlidingGridPiece : MonoBehaviour
     public Vector3 gridPointLoc;
     // Start is called before the first frame update
     public int slotNumber;
+    public GameObject portalPair;
     
     void Start()
     {
