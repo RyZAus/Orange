@@ -8,6 +8,7 @@ public class RotationPiece : MonoBehaviour
     //Private Vars
     private bool isActive;
     private bool isCoroutineActive;
+    private PlayAudioOnFunction audioPlayer;
 
     //Public Vars
     public int counter;
@@ -18,6 +19,7 @@ public class RotationPiece : MonoBehaviour
     
     private void Start()
     {
+        audioPlayer = GetComponent<PlayAudioOnFunction>();
         isCoroutineActive = false;
         isActive = false;
         counter = 0;
@@ -30,10 +32,12 @@ public class RotationPiece : MonoBehaviour
     {
         if (counter < anglesToRotate.Length && isActive == false)
         {
+            audioPlayer.PlayAudio();
             StartCoroutine(RotatePiece());
         }
         else if (isActive == false)
         {
+            audioPlayer.PlayAudio();
             counter = 0;
             StartCoroutine(RotatePiece());
         }

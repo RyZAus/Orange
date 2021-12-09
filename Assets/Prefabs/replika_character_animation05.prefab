@@ -2788,6 +2788,8 @@ GameObject:
   - component: {fileID: 1549571568365639707}
   - component: {fileID: 1549571568365639706}
   - component: {fileID: 590967163}
+  - component: {fileID: 1436827587}
+  - component: {fileID: 1436827586}
   m_Layer: 0
   m_Name: replika_character_animation05
   m_TagString: Untagged
@@ -2932,6 +2934,124 @@ MonoBehaviour:
   - {fileID: 0}
   playerLossTime: 10
   safeDistance: 3
+--- !u!82 &1436827587
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819532247458598845}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.3
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1436827586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819532247458598845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0caec17c284e792458c9e8b139a88a35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitBetweenPlay: 0
+  audioToPlay:
+  - {fileID: 8300000, guid: d7a994231f9e67c42b61746526c80121, type: 3}
+  - {fileID: 8300000, guid: f73bb9a14d50d6448a2f49b1c8b98663, type: 3}
+  - {fileID: 8300000, guid: 4be3dd0baa7a11e4b8aa3ae300d02a8d, type: 3}
+  - {fileID: 8300000, guid: 5e6d6b5fe578e074f8eda30f7908b952, type: 3}
+  - {fileID: 8300000, guid: 7077481df94a43b499a5ce2d6eb8069f, type: 3}
+  - {fileID: 8300000, guid: 155418d3f4c9ce942bcc0dce138c8384, type: 3}
+  - {fileID: 8300000, guid: 639ef0e9bbd073c48b0b0249fd052427, type: 3}
+  - {fileID: 8300000, guid: 4e7a4a9d2d5abbf4a8cb6b73d3fb45a4, type: 3}
 --- !u!1 &2062435395319487187
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class ObjectPickup : ItemEnum
     private Transform pickupPoint;
     private Rigidbody rigidbody;
     private bool isColliding;
+    private DualFunctionPlayAudio audioPlayer;
     
     //Public Vars
     [Tooltip("This bool determines if the item is currently picked up")]
@@ -19,9 +20,14 @@ public class ObjectPickup : ItemEnum
 
     private void Start()
     {
+        if (GetComponent<DualFunctionPlayAudio>() != null)
+        {
+            audioPlayer = GetComponent<DualFunctionPlayAudio>();
+        }
         isPickedUp = false;
         pickupPoint = GameObject.Find("PickupParent").transform;
         rigidbody = GetComponent<Rigidbody>();
+        StartCoroutine(WaitForSound());
     }
 
     private void FixedUpdate()
@@ -41,6 +47,10 @@ public class ObjectPickup : ItemEnum
     //When the mouse is clicked
     private void OnMouseDown()
     {
+        if (audioPlayer != null)
+        {
+            audioPlayer.PlayAudioFirst();
+        }
         transform.parent = pickupPoint;
         isPickedUp = true;
         rigidbody.useGravity = false;
@@ -56,6 +66,14 @@ public class ObjectPickup : ItemEnum
             transform.parent = null;
             rigidbody.useGravity = true;
             isPickedUp = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (audioPlayer != null)
+        {
+            audioPlayer.PlayAudioSecond();
         }
     }
 
@@ -80,5 +98,14 @@ public class ObjectPickup : ItemEnum
     public void UnFixInPlace()
     {
         rigidbody.isKinematic = false;
+    }
+
+    IEnumerator WaitForSound()
+    {
+        yield return new WaitForSeconds(1);
+        if (GetComponent<AudioSource>() != null)
+        {
+            GetComponent<AudioSource>().volume = 0.3f;
+        }
     }
 }

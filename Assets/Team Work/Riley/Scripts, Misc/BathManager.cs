@@ -7,6 +7,7 @@ public class BathManager : MonoBehaviour
 {
     //Private Vars
     private Vector3 waterStartingLevel;
+    private DualFunctionPlayAudio audioPlayer;
     
     //Public Vars
     public float counter;
@@ -20,6 +21,7 @@ public class BathManager : MonoBehaviour
 
     private void Start()
     {
+        audioPlayer = GetComponent<DualFunctionPlayAudio>();
         waterStartingLevel = waterLevel.transform.position;
         counter = 0;
         foreach (GameObject currentPiece in pieces)
@@ -46,10 +48,19 @@ public class BathManager : MonoBehaviour
                 if (counter <= pieces.Length)
                 {
                     waterLevel.transform.position = new Vector3(waterStartingLevel.x, waterStartingLevel.y + (counter/2), waterStartingLevel.z);
+                    if (waterLevel.transform.position.y > waterStartingLevel.y)
+                    {
+                        audioPlayer.PlayAudioFirst();
+                    }
+                    else
+                    {
+                        audioPlayer.PlayAudioSecond();
+                    }
                 }
                 else
                 {
                     waterLevel.transform.position = waterStartingLevel;
+                    audioPlayer.PlayAudioSecond();
                 }
             }
         }

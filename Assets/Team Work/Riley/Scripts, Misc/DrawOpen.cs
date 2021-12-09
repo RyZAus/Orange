@@ -9,6 +9,7 @@ public class DrawOpen : MonoBehaviour
     private bool isOpen = false;
     private Vector3 placeToStart;
     private Vector3 placeToMove;
+    private DualFunctionPlayAudio audioPlayer;
     
     //Public Vars
     [Tooltip("Standard draws are 0.4")]
@@ -19,6 +20,7 @@ public class DrawOpen : MonoBehaviour
     
     private void Start()
     {
+        audioPlayer = GetComponent<DualFunctionPlayAudio>();
         placeToStart = transform.localPosition;
         placeToMove = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + drawOpenDistance);
     }
@@ -28,6 +30,7 @@ public class DrawOpen : MonoBehaviour
     {
         if (drawLocked == false)
         {
+            
             OpenDrawRun();
         }
     }
@@ -46,11 +49,13 @@ public class DrawOpen : MonoBehaviour
     {
         if (isOpen == false)
         {
+            audioPlayer.PlayAudioFirst();
             transform.localPosition = placeToMove;
             isOpen = true;
         }
         else if (isOpen == true && drawLocked == false)
         {
+            audioPlayer.PlayAudioSecond();
             transform.localPosition = placeToStart;
             isOpen = false;
         }

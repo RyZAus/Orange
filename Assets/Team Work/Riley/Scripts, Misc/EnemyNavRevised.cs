@@ -17,6 +17,7 @@ namespace RileyMcGowan
         public DelegateState attack = new DelegateState();
 
         //Private Vars
+        private PlayAudioOnFunction audioPlayer;
         private FOV enemyFOV;
         private IEnumerator currentCo;
         private NavMeshAgent navMeshRef;
@@ -34,6 +35,10 @@ namespace RileyMcGowan
         private void Start()
         {
             //Grab References
+            if (GetComponent<PlayAudioOnFunction>() != null)
+            {
+                audioPlayer = GetComponent<PlayAudioOnFunction>();
+            }
             if (GetComponent<Damien.FOV>() != null)
             {
                 enemyFOV = GetComponent<Damien.FOV>();
@@ -71,11 +76,13 @@ namespace RileyMcGowan
             currentState.UpdateState();
             if (doWeHavePlayer == false && enemyFOV.listOfTargets.Count > 0 && blind == false)
             {
+                audioPlayer.PlayAudio();
                 doWeHavePlayer = true;
                 navigationPoint = enemyFOV.listOfTargets[0];
             }
             else if (doWeHavePlayer == true && enemyFOV.listOfTargets.Count > 0)
             {
+                audioPlayer.PlayAudio();
                 ResetDelayCounter();
             }
         }
